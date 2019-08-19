@@ -22,3 +22,11 @@ class SheetWidget(QWidget):
         qp.setBrush(QtGui.QColor(150, 255, 150))
         for i in range( 5 ):
             qp.drawLine( i * 10 + 50, 20, i * 10 + 50, 50 )
+
+class StaticSheetWidget():
+    def __init__( self, sw ):
+        pass
+
+class DynamicSheetWidget():
+    def __init__( self, sw ):
+        pass
