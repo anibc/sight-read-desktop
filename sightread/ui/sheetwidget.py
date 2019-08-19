@@ -1,10 +1,12 @@
 from PyQt5.QtWidgets import QWidget
 import PyQt5.QtGui as QtGui
+from sightread import mode
 
 class SheetWidget(QWidget):
     def __init__(self):
         super().__init__()
         self.initUI()
+        self.mode = mode.MiniRandom( self )
 
     def initUI( self ):
         pass
