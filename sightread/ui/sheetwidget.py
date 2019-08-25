@@ -26,8 +26,12 @@ class SheetWidget(QWidget):
 
 class StaticSheet( MIDIListener ):
     def __init__( self, sw ):
+        self.sw = sw
+    def on_midi_input( self, msg ):
         pass
 
 class DynamicSheet( MIDIListener ):
     def __init__( self, sw ):
+        self.sw = sw
+    def on_midi_input( self, msg ):
         pass
