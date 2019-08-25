@@ -1,6 +1,7 @@
 from PyQt5.QtWidgets import QWidget
 import PyQt5.QtGui as QtGui
 from sightread import mode
+from sightread.midi.input import MIDIListener
 
 class SheetWidget(QWidget):
     def __init__(self):
@@ -23,10 +24,10 @@ class SheetWidget(QWidget):
         for i in range( 5 ):
             qp.drawLine( i * 10 + 50, 20, i * 10 + 50, 50 )
 
-class StaticSheet():
+class StaticSheet( MIDIListener ):
     def __init__( self, sw ):
         pass
 
-class DynamicSheet():
+class DynamicSheet( MIDIListener ):
     def __init__( self, sw ):
         pass
