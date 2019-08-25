@@ -23,10 +23,10 @@ class SheetWidget(QWidget):
         for i in range( 5 ):
             qp.drawLine( i * 10 + 50, 20, i * 10 + 50, 50 )
 
-class StaticSheetWidget():
+class StaticSheet():
     def __init__( self, sw ):
         pass
 
-class DynamicSheetWidget():
+class DynamicSheet():
     def __init__( self, sw ):
         pass
