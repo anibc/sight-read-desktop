@@ -1,16 +1,27 @@
 from PyQt5.QtWidgets import QWidget
 import PyQt5.QtGui as QtGui
 from sightread import mode
-from sightread.midi.input import MIDIListener
+from sightread.midi.input import MIDIListener, register, deregister
 
 class SheetWidget(QWidget):
     def __init__(self):
         super().__init__()
+        self._controller = None
         self.initUI()
-        self.mode = mode.MiniRandom( self )
+
+    @property
+    def controller( self ):
+        return self._controller
+
+    @controller.setter
+    def controller( self, value ):
+        if self._controller != None:
+            deregister( self._controller )
+        self._controller = value
+        register( self._controller )
 
     def initUI( self ):
-        pass
+        self.mode = mode.MiniRandom( self )
 
     def paintEvent( self, e ):
         qp = QtGui.QPainter()
@@ -24,14 +35,15 @@ class SheetWidget(QWidget):
         for i in range( 5 ):
             qp.drawLine( i * 10 + 50, 20, i * 10 + 50, 50 )
 
-class StaticSheet( MIDIListener ):
+class SheetController():
     def __init__( self, sw ):
         self.sw = sw
+        sw.controller = self
+
+class StaticSheet( SheetController, MIDIListener ):
     def on_midi_input( self, msg ):
         pass
 
-class DynamicSheet( MIDIListener ):
-    def __init__( self, sw ):
-        self.sw = sw
+class DynamicSheet( SheetController, MIDIListener ):
     def on_midi_input( self, msg ):
         pass
