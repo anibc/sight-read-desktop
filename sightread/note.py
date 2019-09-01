@@ -1,6 +1,13 @@
 """ MIDI note object """
 notes = ['C', 'Db', 'D', 'Eb', 'E', 'F', 'Gb', 'G', 'Ab', 'A', 'Bb', 'B'] 
 
+LOW  = Note( 0 )
+HIGH = Note( 180 )
+MIDDLEC = Note( 60 )
+LOW88 = Note( 9 )
+SHEETHIGH = Note( 77 )
+SHEETLOW = Note( 43 )
+
 class Note:
     def __init__( self, v ):
         if type(v) == int:
@@ -18,7 +25,7 @@ class Note:
     @property
     def s(self):
         mod = notes[ self.n % 12 ]
-        div = self.n // 12
+        div = self.n // 12 + 1
         return str(div) + mod
     @s.setter
     def s(self, value):
