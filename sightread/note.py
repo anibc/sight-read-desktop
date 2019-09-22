@@ -28,15 +28,17 @@ class Note:
         self.n = int( first ) * 12 + mod
     @property
     def n8(self):
-        div = self._n // 12
-        mod = self._n - div
+        """ map [0,2,4,5,7,9,11] to [0-6] """
+        n = self.white().n
+        div = n // 12
+        mod = n % 12
         mod -= mod // 2
         return div * 8 + mod
-    @n.setter
+    @n8.setter
     def n8(self, value):
         div = value // 8
-        mod = value - div
-        self._n = div * 12 + mod + ( mod + 1 ) // 4
+        mod = value % 8
+        self._n = div * 12 + 2 * mod - ( mod + 1 ) // 4
     def isWhite( self ):
         return self.s[ -1 ] != 'b'
     def white( self ):
