@@ -1,13 +1,6 @@
 """ MIDI note object """
 notes = ['C', 'Db', 'D', 'Eb', 'E', 'F', 'Gb', 'G', 'Ab', 'A', 'Bb', 'B'] 
 
-LOW  = Note( 0 )
-HIGH = Note( 180 )
-MIDDLEC = Note( 60 )
-LOW88 = Note( 9 )
-SHEETHIGH = Note( 77 )
-SHEETLOW = Note( 43 )
-
 class Note:
     def __init__( self, v ):
         if type(v) == int:
@@ -48,6 +41,13 @@ class Note:
         return self.s[ -1 ] != 'b'
     def white( self ):
         return self if self.isWhite() else Note( self.n + 1 )
+
+LOW  = Note( 0 )
+HIGH = Note( 180 )
+MIDDLEC = Note( 60 )
+LOW88 = Note( 9 )
+SHEETHIGH = Note( 77 )
+SHEETLOW = Note( 43 )
 
 def main():
     n = Note('5C')
