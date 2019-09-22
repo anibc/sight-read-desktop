@@ -36,7 +36,7 @@ class Note:
     def isWhite( self ):
         return self.s[ -1 ] != 'b'
     def white( self ):
-        return Note( self.s[:-1] if self.s[ -2 ].isalpha() else self.s )
+        return self if self.isWhite() else Note( self.n + 1 )
 
 def main():
     n = Note('5C')
