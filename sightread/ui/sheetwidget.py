@@ -32,6 +32,7 @@ class SheetWidget(QWidget):
     def drawWidget( self, qp ):
         qp.setPen(QtGui.QColor(255, 150, 150))
         qp.setBrush(QtGui.QColor(150, 255, 150))
+        # width = size().width()
         qp.drawText(40,40, "Line of Text")
         # qp.drawGlyphRun();
         for i in range( 5 ):
