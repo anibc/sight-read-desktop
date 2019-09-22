@@ -18,7 +18,7 @@ class Note:
     @property
     def s(self):
         mod = notes[ self.n % 12 ]
-        div = self.n // 12 + 1
+        div = self.n // 12
         return str(div) + mod
     @s.setter
     def s(self, value):
