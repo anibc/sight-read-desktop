@@ -33,6 +33,17 @@ class Note:
         first, second = value[ :ind ], value[ ind: ]
         mod = notes.index( second )
         self.n = int( first ) * 12 + mod
+    @property
+    def n8(self):
+        div = self._n // 12
+        mod = self._n - div
+        mod -= mod // 2
+        return div * 8 + mod
+    @n.setter
+    def n8(self, value):
+        div = value // 8
+        mod = value - div
+        self._n = div * 12 + mod + ( mod + 1 ) // 4
     def isWhite( self ):
         return self.s[ -1 ] != 'b'
     def white( self ):
