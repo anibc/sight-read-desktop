@@ -37,9 +37,18 @@ class SheetWidget(QWidget):
         height = self.size().height()
         qp.drawText(40,40, "Line of Text")
         # qp.drawGlyphRun();
+        # dist_between_lines = dist_between_notes * 2 + 1
+        dist_from_top = 10
+        dist_between_notes = 5
+        middle_gap = dist_between_notes * 5
+        middle_c_n8 = note.MIDDLEC.n8 # 40
         for i in range( note.SHEETLOW.n8, note.SHEETHIGH.n8 + 1, 2 ):
-            y = i * 2 + 10
-            qp.drawLine( 0, y, width - 10, y)
+            y = i * ( dist_between_notes + 1 ) + dist_from_top
+            if i == middle_c_n8:
+                y += middle_gap
+            elif i > middle_c_n8:
+                y += middle_gap * 2
+            qp.drawLine( 0, y, width, y)
 
 class SheetController():
     def __init__( self, sw ):
