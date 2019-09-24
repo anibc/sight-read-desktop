@@ -44,8 +44,8 @@ class SheetWidget(QWidget):
         # qp.drawText(40,40, "Line of Text")
         # qp.drawGlyphRun();
         self.draw_static_lines( qp )
-        # self.draw_note_lines( qp, self.notes ) #TODO
-        # self.draw_notes( qp, self.notes ) #TODO
+        self.draw_note_lines( qp )
+        self.draw_notes( qp )
 
     def draw_static_lines( self, qp ):
         qp.setPen(QtGui.QColor(10, 10, 10))
@@ -53,6 +53,12 @@ class SheetWidget(QWidget):
         for i in range( note.SHEETLOW.n8, note.SHEETHIGH.n8 + 1, 2 ):
             y = self.height_from_n8( i )
             qp.drawLine( 0, y, width, y)
+
+    def draw_note_lines( self, qp ):
+        pass
+
+    def draw_notes( self, qp ):
+        pass
 
     def height_from_note( self, n ):
         return height_from_n8( n.n8 )
