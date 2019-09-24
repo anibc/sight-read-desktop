@@ -55,10 +55,17 @@ class SheetWidget(QWidget):
             qp.drawLine( 0, y, width, y)
 
     def draw_note_lines( self, qp ):
+        self.draw_top_note_lines( qp )
+        self.draw_bottom_note_lines( qp )
+
+    def draw_top_note_lines( self, qp ):
+        pass
+
+    def draw_bottom_note_lines( qp ):
         pass
 
     def draw_notes( self, qp ):
-        pass
+        return NotImplemented
 
     def height_from_note( self, n ):
         return height_from_n8( n.n8 )
