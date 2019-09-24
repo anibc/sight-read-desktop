@@ -13,6 +13,7 @@ middle_c_n8 = note.MIDDLEC.n8 # 40
 class SheetWidget(QWidget):
     def __init__(self):
         super().__init__()
+        self.notes = {}
         self._controller = None
         self.initUI()
 
@@ -43,8 +44,8 @@ class SheetWidget(QWidget):
         # qp.drawText(40,40, "Line of Text")
         # qp.drawGlyphRun();
         self.draw_static_lines( qp )
-        # self.draw_note_lines( qp, notes ) #TODO
-        # self.draw_notes( qp, notes ) #TODO
+        # self.draw_note_lines( qp, self.notes ) #TODO
+        # self.draw_notes( qp, self.notes ) #TODO
 
     def draw_static_lines( self, qp ):
         qp.setPen(QtGui.QColor(10, 10, 10))
