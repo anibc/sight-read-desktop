@@ -61,7 +61,7 @@ class SheetWidget(QWidget):
     def draw_top_note_lines( self, qp ):
         pass
 
-    def draw_bottom_note_lines( qp ):
+    def draw_bottom_note_lines( self, qp ):
         pass
 
     def draw_notes( self, qp ):
