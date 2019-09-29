@@ -29,7 +29,7 @@ class SheetWidget(QWidget):
         register( self._controller )
 
     def initUI( self ):
-        pass
+        self.setMinimumHeight( 600 ) # TODO: derive exact required height from dist_between_notes
 
     def paintEvent( self, e ):
         qp = QtGui.QPainter()
