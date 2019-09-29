@@ -29,7 +29,7 @@ class SheetWidget(QWidget):
         register( self._controller )
 
     def initUI( self ):
-        self.mode = mode.MiniRandom( self )
+        pass
 
     def paintEvent( self, e ):
         qp = QtGui.QPainter()
@@ -77,16 +77,3 @@ class SheetWidget(QWidget):
         elif n8 > middle_c_n8:
             y += middle_gap * 2
         return y
-
-class SheetController():
-    def __init__( self, sw ):
-        self.sw = sw
-        sw.controller = self
-
-class StaticSheet( SheetController, MIDIListener ):
-    def on_midi_input( self, msg ):
-        pass
-
-class DynamicSheet( SheetController, MIDIListener ):
-    def on_midi_input( self, msg ):
-        pass
