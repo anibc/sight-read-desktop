@@ -2,11 +2,13 @@ from PyQt5.QtWidgets import QWidget, QVBoxLayout
 from sightread.ui.sheetwidget import SheetWidget
 from sightread.ui.keyboardwidget import KeyboardWidget
 from sightread.ui.visualizerwidget import VisualizerWidget
+from sightread.ui.sheetlayoutcontroller import SheetLayoutController
 
 class SheetLayout(QWidget):
     def __init__(self):
         super().__init__()
         self.initUI()
+        self.controller = SheetLayoutController(self)
 
     def initUI( self ):
         self.rootLayout = QVBoxLayout()
