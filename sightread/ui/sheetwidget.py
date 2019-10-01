@@ -14,19 +14,7 @@ class SheetWidget(QWidget):
     def __init__(self):
         super().__init__()
         self.notes = {}
-        self._controller = None
         self.initUI()
-
-    @property
-    def controller( self ):
-        return self._controller
-
-    @controller.setter
-    def controller( self, value ):
-        if self._controller != None:
-            deregister( self._controller )
-        self._controller = value
-        register( self._controller )
 
     def initUI( self ):
         self.setMinimumHeight( 600 ) # TODO: derive exact required height from dist_between_notes
