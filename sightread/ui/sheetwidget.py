@@ -11,9 +11,9 @@ middle_gap = dist_between_notes * 5
 middle_c_n8 = note.MIDDLEC.n8 # 40
 
 class SheetWidget(QWidget):
-    def __init__(self):
+    def __init__(self, notes):
         super().__init__()
-        self.notes = {}
+        self.notes = notes
         self.initUI()
 
     def initUI( self ):

@@ -8,15 +8,15 @@ from sightread.viewablenotes import NoteModel
 class SheetLayout(QWidget):
     def __init__(self):
         super().__init__()
-        self.initUI()
         self.controller = SheetLayoutController(self)
         self.notes = NoteModel()
+        self.initUI()
 
     def initUI( self ):
         self.rootLayout = QVBoxLayout()
-        self.sw = SheetWidget()
-        self.vw = VisualizerWidget()
-        self.kw = KeyboardWidget()
+        self.sw = SheetWidget( self.notes )
+        self.vw = VisualizerWidget( self.notes )
+        self.kw = KeyboardWidget( self.notes )
 
         self.rootLayout.addWidget(self.sw)
         self.rootLayout.addWidget(self.vw)
