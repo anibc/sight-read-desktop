@@ -29,7 +29,7 @@ class SheetWidget(QWidget):
         qp.setPen(QtGui.QColor(255, 150, 150))
         # qp.setBrush(QtGui.QColor(150, 255, 150))
         # qp.setFont(QtGui.QFont('Arial', 30))
-        # qp.drawText(40,40, "Line of Text")
+        # qp.drawText(40,40, str(self.size().width()) )
         # qp.drawGlyphRun();
         self.draw_static_lines( qp )
         self.draw_note_lines( qp )
