@@ -31,29 +31,6 @@ class NoteModel:
             if vn.st <= r and vn.et >= l:
                 yield vn
 
-    def rangeIndeces( self, l, r ):
-        m = 1
-        while m <= len(self.l):
-            m *= 2
-        m //= 2
-
-        i, j = -1, -1
-        while m > 0:
-            if i + m < len(self.l) and self.l[ i + m ].t < l:
-                i += m
-            if j + m < len(self.l) and self.l[ j + m ].t > r:
-                j += m
-            m //= 2
-        return i + 1, j - 1
-
-class MinHeap(Heap):
-    def cmp( self, a, b ):
-        return self.key( a ) < self.key( b )
-
-class MaxHeap(Heap):
-    def cmp( self, a, b ):
-        return self.key( a ) > self.key( b )
-
 class Heap:
     def __init__( self, key ):
         self.key = key
@@ -67,3 +44,12 @@ class Heap:
         pass
     def pop( self, n ):
         pass
+
+class MinHeap(Heap):
+    def cmp( self, a, b ):
+        return self.key( a ) < self.key( b )
+
+class MaxHeap(Heap):
+    def cmp( self, a, b ):
+        return self.key( a ) > self.key( b )
+
