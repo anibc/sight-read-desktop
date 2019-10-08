@@ -19,7 +19,10 @@ class NoteModel:
     def remove( self, vn ):
         # only to be used by static controller
         # TODO implement with heap
-        pass
+        self.l.remove(vn)
+    def update( self, vn ):
+        # TODO implement with heap
+        self.l.sort(key= lambda vn: vn.et)
     def range( self, l, r ):
         # TODO implement with heap
         """ generates ViewableNotes from time l to r """
