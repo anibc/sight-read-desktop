@@ -14,15 +14,19 @@ class NoteModel:
         self.windowOut = MinHeap( lambda n: n.et )
         self.outgoing  = MaxHeap( lambda n: n.et )
     def insert( self, vn ):
-        pass
+        # TODO implement with heap
+        self.l.append( vn )
     def remove( self, vn ):
         # only to be used by static controller
+        # TODO implement with heap
         pass
     def range( self, l, r ):
+        # TODO implement with heap
         """ generates ViewableNotes from time l to r """
-        l, r = self.rangeIndeces( l, r )
-        for i in range(l, r):
-            yield self.l[ i ]
+        self.l.sort( key = lambda vn: vn.et )
+        for vn in self.l:
+            if vn.st <= r and vn.et >= l:
+                yield vn
 
     def rangeIndeces( self, l, r ):
         m = 1
