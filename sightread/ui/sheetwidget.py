@@ -53,10 +53,18 @@ class SheetWidget(QWidget):
         pass
 
     def draw_notes( self, qp ):
-        return NotImplemented
+        # https://unicode-table.com/en/blocks/musical-symbols/
+        # qp.drawText(40,40, u'\u266D')
+        # qp.drawText(48,40, u'\U0001D15D')
+        # return NotImplemented
+        qp.setFont( QtGui.QFont("Times", 30) )
+        width = self.size().width()
+        for n in self.notes.rangeST(0,width):
+            y = self.height_from_note( n ) + qp.fontInfo().pixelSize() // 10
+            qp.drawText(n.st * 10, y, u'\U0001D15D')
 
     def height_from_note( self, n ):
-        return height_from_n8( n.n8 )
+        return self.height_from_n8( n.n8 )
 
     def height_from_n8( self, n8 ):
         y = n8 * ( dist_between_notes + 1 ) + dist_from_top
