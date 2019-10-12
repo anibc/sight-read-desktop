@@ -1,8 +1,7 @@
 from sightread.note import Note
 class ViewableNote( Note ):
     def __init__( self, n, st, et ):
-        super().__init__()
-        self.n = n
+        super().__init__( n.n )
         self.st = st
         self.et = et
 
