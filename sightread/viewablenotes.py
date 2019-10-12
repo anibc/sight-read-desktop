@@ -23,10 +23,17 @@ class NoteModel:
     def update( self, vn ):
         # TODO implement with heap
         self.l.sort(key= lambda vn: vn.et)
-    def range( self, l, r ):
+    def rangeET( self, l, r ):
         # TODO implement with heap
         """ generates ViewableNotes from time l to r """
         self.l.sort( key = lambda vn: vn.et )
+        for vn in self.l:
+            if vn.st <= r and vn.et >= l:
+                yield vn
+    def rangeST( self, l, r ):
+        # TODO implement with heap
+        """ generates ViewableNotes from time l to r """
+        self.l.sort( key = lambda vn: vn.st )
         for vn in self.l:
             if vn.st <= r and vn.et >= l:
                 yield vn
