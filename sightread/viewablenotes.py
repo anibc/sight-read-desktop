@@ -12,6 +12,9 @@ class NoteModel:
         self.windowIn  = MaxHeap( lambda n: n.st )
         self.windowOut = MinHeap( lambda n: n.et )
         self.outgoing  = MaxHeap( lambda n: n.et )
+        self.insert( ViewableNote( Note( 60 ), 0, 10 ) )
+        self.insert( ViewableNote( Note( 56 ), 10, 20 ) )
+        self.insert( ViewableNote( Note( 65 ), 20, 30 ) )
     def insert( self, vn ):
         # TODO implement with heap
         self.l.append( vn )
