@@ -1,7 +1,7 @@
 from PyQt5.QtWidgets import QWidget, QVBoxLayout
 from sightread.ui.sheetwidget import SheetWidget
 from sightread.ui.keyboardwidget import KeyboardWidget
-from sightread.ui.visualizerwidget import VisualizerWidget
+from sightread.ui.waterfallwidget import WaterfallWidget
 from sightread.ui.sheetlayoutcontroller import SheetLayoutController
 from sightread.viewablenotes import NoteModel
 
@@ -15,11 +15,11 @@ class SheetLayout(QWidget):
     def initUI( self ):
         self.rootLayout = QVBoxLayout()
         self.sw = SheetWidget( self.notes )
-        self.vw = VisualizerWidget( self.notes )
+        self.ww = WaterfallWidget( self.notes )
         self.kw = KeyboardWidget( self.notes )
 
         self.rootLayout.addWidget(self.sw)
-        self.rootLayout.addWidget(self.vw)
+        self.rootLayout.addWidget(self.ww)
         self.rootLayout.addWidget(self.kw)
 
         self.setLayout(self.rootLayout)
