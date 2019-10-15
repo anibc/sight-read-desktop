@@ -67,9 +67,9 @@ class SheetWidget(QWidget):
         return self.height_from_n8( n.n8 )
 
     def height_from_n8( self, n8 ):
-        y = n8 * ( dist_between_notes + 1 ) + dist_from_top
+        y = ( 120 - n8 ) * ( dist_between_notes + 1 ) + dist_from_top
         if n8 == middle_c_n8:
             y += middle_gap
-        elif n8 > middle_c_n8:
+        elif n8 < middle_c_n8:
             y += middle_gap * 2
         return y
