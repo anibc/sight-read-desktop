@@ -1,17 +1,20 @@
 from sightread.note import Note
 class ViewableNote( Note ):
     def __init__( self, n, st, et ):
-        super().__init__( n.n )
+        if type(n) == Note:
+            super().__init__( n.n )
+        else:
+            super().__init__( n )
         self.st = st
         self.et = et
 
 class NoteModel:
     def __init__( self ):
         self.l = []
-        self.incoming  = MinHeap( lambda n: n.st )
-        self.windowIn  = MaxHeap( lambda n: n.st )
-        self.windowOut = MinHeap( lambda n: n.et )
-        self.outgoing  = MaxHeap( lambda n: n.et )
+        # self.incoming  = MinHeap( lambda n: n.st )
+        # self.windowIn  = MaxHeap( lambda n: n.st )
+        # self.windowOut = MinHeap( lambda n: n.et )
+        # self.outgoing  = MaxHeap( lambda n: n.et )
         self.insert( ViewableNote( Note( 60 ), 0, 10 ) )
         self.insert( ViewableNote( Note( 56 ), 10, 20 ) )
         self.insert( ViewableNote( Note( 65 ), 20, 30 ) )
