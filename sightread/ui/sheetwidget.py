@@ -11,9 +11,9 @@ middle_gap = dist_between_notes * 5
 middle_c_n8 = note.MIDDLEC.n8 # 40
 
 class SheetWidget(QWidget):
-    def __init__(self, notes):
+    def __init__(self, player):
         super().__init__()
-        self.notes = notes
+        self.player = player
         self.initUI()
 
     def initUI( self ):
@@ -59,9 +59,14 @@ class SheetWidget(QWidget):
         # return NotImplemented
         qp.setFont( QtGui.QFont("Times", 30) )
         width = self.size().width()
-        for n in self.notes.rangeST(0,width):
+        print('drawing notes')
+        for n in self.player.tracknotes.rangeST(0,width / 10):
             y = self.height_from_note( n ) + qp.fontInfo().pixelSize() // 10
-            qp.drawText(n.st * 10, y, u'\U0001D15D')
+            qp.drawText( 80 + n.st * 10, y, u'\U0001D15D')
+            print( n.n )
+        for n in self.player.playednotes.rangeST(0,width / 10):
+            y = self.height_from_note( n ) + qp.fontInfo().pixelSize() // 10
+            qp.drawText( 80 + n.st * 10, y, u'\U0001D15D')
 
     def height_from_note( self, n ):
         return self.height_from_n8( n.n8 )

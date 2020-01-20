@@ -2,21 +2,19 @@ from PyQt5.QtWidgets import QWidget, QVBoxLayout
 from sightread.ui.sheetwidget import SheetWidget
 from sightread.ui.keyboardwidget import KeyboardWidget
 from sightread.ui.waterfallwidget import WaterfallWidget
-from sightread.ui.sheetlayoutcontroller import SheetLayoutController
-from sightread.viewablenotes import NoteModel
+from sightread.player import StaticPlayer
 
 class SheetLayout(QWidget):
     def __init__(self):
         super().__init__()
-        self.controller = SheetLayoutController(self)
-        self.notes = NoteModel()
+        self.player = StaticPlayer( self )
         self.initUI()
 
     def initUI( self ):
         self.rootLayout = QVBoxLayout()
-        self.sw = SheetWidget( self.notes )
-        self.ww = WaterfallWidget( self.notes )
-        self.kw = KeyboardWidget( self.notes )
+        self.sw = SheetWidget( self.player )
+        self.ww = WaterfallWidget( self.player )
+        self.kw = KeyboardWidget( self.player )
 
         self.rootLayout.addWidget(self.sw)
         self.rootLayout.addWidget(self.ww)
