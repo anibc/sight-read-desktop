@@ -9,15 +9,17 @@ class ViewableNote( Note ):
         self.et = et
 
 class NoteModel:
-    def __init__( self ):
+    def __init__( self, nextnote=None ):
         self.l = []
+        self.nextnote = nextnote
         # self.incoming  = MinHeap( lambda n: n.st )
         # self.windowIn  = MaxHeap( lambda n: n.st )
         # self.windowOut = MinHeap( lambda n: n.et )
         # self.outgoing  = MaxHeap( lambda n: n.et )
-        self.insert( ViewableNote( Note( 60 ), 0, 10 ) )
-        self.insert( ViewableNote( Note( 56 ), 10, 20 ) )
-        self.insert( ViewableNote( Note( 65 ), 20, 30 ) )
+
+        # self.insert( ViewableNote( Note( 60 ), 0, 10 ) )
+        # self.insert( ViewableNote( Note( 56 ), 10, 20 ) )
+        # self.insert( ViewableNote( Note( 65 ), 20, 30 ) )
     def insert( self, vn ):
         # TODO implement with heap
         self.l.append( vn )
@@ -39,6 +41,12 @@ class NoteModel:
         # TODO implement with heap
         """ generates ViewableNotes from time l to r """
         self.l.sort( key = lambda vn: vn.st )
+        while self.nextnote != None and ( len( self.l ) == 0 or self.l[ -1 ].st <= r ):
+            try:
+                a = next( self.nextnote )
+                self.l.append( a )
+            except e:
+                break
         for vn in self.l:
             if vn.st <= r and vn.et >= l:
                 yield vn
