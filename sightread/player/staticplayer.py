@@ -9,6 +9,7 @@ class StaticPlayer( Player ):
         self.sl = sl
         self.tracknotes = NoteModel( OneHandWhiteRandGen() )
         self.playednotes = NoteModel()
+        self.curtime = 0
         midiname = next( ( n for n in mido.get_input_names() if 'V61' in n ) )
         self.midi_input = mido.open_input( midiname, callback=self.midi_callback )
 
@@ -19,6 +20,8 @@ class StaticPlayer( Player ):
             self.playednotes.insert( ViewableNote( msg.note, 0, 10 ) )
             left = list( filter( lambda n: n.st == self.tracknotes.l[ 0 ].st, self.tracknotes.l ) )
             if all( ( i in set( [ n.n for n in self.playednotes.l ] ) for i in set( [ n.n for n in left ] ) ) ):
+                # self.curtime = left[ 0 ].st + 1
+                self.curtime += 10
                 for n in left:
                     self.tracknotes.remove( n )
         elif msg.type == 'note_off':

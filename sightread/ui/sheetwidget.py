@@ -5,7 +5,7 @@ from sightread.midi.input import MIDIListener, register, deregister
 from sightread import note
 
 # dist_between_lines = dist_between_notes * 2 + 1
-dist_from_top = 10
+dist_from_top = 0
 dist_between_notes = 5
 middle_gap = dist_between_notes * 5
 middle_c_n8 = note.MIDDLEC.n8 # 40
@@ -17,7 +17,7 @@ class SheetWidget(QWidget):
         self.initUI()
 
     def initUI( self ):
-        self.setMinimumHeight( 600 ) # TODO: derive exact required height from dist_between_notes
+        self.setMinimumHeight( self.height_from_note( note.Note( note.SHEETLOW.n - 5 ) ) ) # TODO: derive exact required height from dist_between_notes
 
     def paintEvent( self, e ):
         qp = QtGui.QPainter()
@@ -59,13 +59,11 @@ class SheetWidget(QWidget):
         # return NotImplemented
         qp.setFont( QtGui.QFont("Times", 30) )
         width = self.size().width()
-        print('drawing notes')
-        for n in self.player.tracknotes.rangeST(0,width / 10):
-            y = self.height_from_note( n ) + qp.fontInfo().pixelSize() // 10
-            qp.drawText( 80 + n.st * 10, y, u'\U0001D15D')
-            print( n.n )
+        for n in self.player.tracknotes.rangeST( self.player.curtime, self.player.curtime + width / 10):
+            y = self.height_from_note( n ) + 6 #qp.fontInfo().pixelSize() // 8
+            qp.drawText( 80 + ( n.st - self.player.curtime ) * 10, y, u'\U0001D15D')
         for n in self.player.playednotes.rangeST(0,width / 10):
-            y = self.height_from_note( n ) + qp.fontInfo().pixelSize() // 10
+            y = self.height_from_note( n ) + 6 #qp.fontInfo().pixelSize() // 8
             qp.drawText( 80 + n.st * 10, y, u'\U0001D15D')
 
     def height_from_note( self, n ):
