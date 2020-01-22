@@ -33,11 +33,11 @@ class Note:
         div = n // 12
         mod = n % 12
         mod -= mod // 2
-        return div * 8 + mod
+        return div * 7 + mod
     @n8.setter
     def n8(self, value):
-        div = value // 8
-        mod = value % 8
+        div = value // 7
+        mod = value % 7
         self._n = div * 12 + 2 * mod - ( mod + 1 ) // 4
     def isWhite( self ):
         return self.s[ -1 ] != 'b'
