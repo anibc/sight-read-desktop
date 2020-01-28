@@ -7,7 +7,7 @@ import random
 class StaticPlayer( Player ):
     def __init__( self, sl ):
         self.sl = sl
-        self.tracknotes = NoteModel( OneHandWhiteRandGen() )
+        self.tracknotes = NoteModel( TwoHandWhiteRandGen() )
         self.playednotes = NoteModel()
         self.curtime = 0
         midiname = next( ( n for n in mido.get_input_names() if 'V61' in n ) )
@@ -34,4 +34,14 @@ def OneHandWhiteRandGen():
     while True:
         i += 10
         n = random.randrange( note.SHEETLOW.n, note.SHEETHIGH.n )
+        yield ViewableNote( note.Note( n ).white(), i, i + 10 )
+
+def TwoHandWhiteRandGen():
+    i = 0
+    while True:
+        i += 10
+        n = random.randrange( note.SHEETLOW.n, note.SHEETHIGH.n )
+        m = random.randrange( note.SHEETLOW.n, note.SHEETHIGH.n )
+        while n == m:
+            m = random.randrange( note.SHEETLOW.n, note.SHEETHIGH.n )
         yield ViewableNote( note.Note( n ).white(), i, i + 10 )
