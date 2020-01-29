@@ -44,7 +44,8 @@ class NoteModel:
         while self.nextnote != None and ( len( self.l ) == 0 or self.l[ -1 ].st <= r ):
             try:
                 a = next( self.nextnote )
-                self.l.append( a )
+                for b in a:
+                    self.l.append( b )
             except e:
                 break
         for vn in self.l:

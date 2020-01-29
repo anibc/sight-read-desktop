@@ -34,14 +34,14 @@ def OneHandWhiteRandGen():
     while True:
         i += 10
         n = random.randrange( note.SHEETLOW.n, note.SHEETHIGH.n )
-        yield ViewableNote( note.Note( n ).white(), i, i + 10 )
+        yield ( ViewableNote( note.Note( n ).white(), i, i + 10 ) )
 
 def TwoHandWhiteRandGen():
     i = 0
     while True:
         i += 10
         n = random.randrange( note.SHEETLOW.n, note.SHEETHIGH.n )
-        m = random.randrange( note.SHEETLOW.n, note.SHEETHIGH.n )
-        while n == m:
-            m = random.randrange( note.SHEETLOW.n, note.SHEETHIGH.n )
-        yield ViewableNote( note.Note( n ).white(), i, i + 10 )
+        m = random.randrange( note.SHEETLOW.n, note.SHEETHIGH.n - 1 )
+        if m == n:
+            m += 1
+        yield ( ViewableNote( note.Note( n ).white(), i, i + 10 ), ViewableNote( note.Note( m ).white(), i, i + 10 ) )
