@@ -52,6 +52,12 @@ class SheetWidget(QWidget):
     def draw_bottom_note_lines( self, qp ):
         pass
 
+    def draw_note( self, qp, n ):
+        y = self.height_from_note( n ) + 6 #qp.fontInfo().pixelSize() // 8
+        qp.drawText( 80 + ( n.st - self.player.curtime ) * 10, y, u'\U0001D15D')
+        if not n.isWhite():
+            qp.drawText( 80 + ( n.st - self.player.curtime ) * 10 - 10, y, u'\U0001D12C')
+
     def draw_notes( self, qp ):
         # https://unicode-table.com/en/blocks/musical-symbols/
         # qp.drawText(40,40, u'\u266D')
@@ -60,10 +66,7 @@ class SheetWidget(QWidget):
         qp.setFont( QtGui.QFont("Times", 30) )
         width = self.size().width()
         for n in self.player.tracknotes.rangeST( self.player.curtime, self.player.curtime + width / 10):
-            y = self.height_from_note( n ) + 6 #qp.fontInfo().pixelSize() // 8
-            qp.drawText( 80 + ( n.st - self.player.curtime ) * 10, y, u'\U0001D15D')
-            if not n.isWhite():
-                qp.drawText( 80 + ( n.st - self.player.curtime ) * 10 - 10, y, u'\U0001D12C')
+            self.draw_note( qp, n )
         for n in self.player.playednotes.rangeST(0,width / 10):
             y = self.height_from_note( n ) + 6 #qp.fontInfo().pixelSize() // 8
             qp.drawText( 80 + n.st * 10, y, u'\U0001D15D')
