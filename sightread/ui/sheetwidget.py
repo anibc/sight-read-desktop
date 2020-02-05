@@ -62,9 +62,13 @@ class SheetWidget(QWidget):
         for n in self.player.tracknotes.rangeST( self.player.curtime, self.player.curtime + width / 10):
             y = self.height_from_note( n ) + 6 #qp.fontInfo().pixelSize() // 8
             qp.drawText( 80 + ( n.st - self.player.curtime ) * 10, y, u'\U0001D15D')
+            if not n.isWhite():
+                qp.drawText( 80 + ( n.st - self.player.curtime ) * 10 - 10, y, u'\U0001D12C')
         for n in self.player.playednotes.rangeST(0,width / 10):
             y = self.height_from_note( n ) + 6 #qp.fontInfo().pixelSize() // 8
             qp.drawText( 80 + n.st * 10, y, u'\U0001D15D')
+            if not n.isWhite():
+                qp.drawText( 80 + ( n.st - self.player.curtime ) * 10 - 10, y, u'\U0001D12C')
 
     def height_from_note( self, n ):
         return self.height_from_n8( n.n8 )

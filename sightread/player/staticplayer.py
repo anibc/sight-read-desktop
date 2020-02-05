@@ -44,4 +44,4 @@ def TwoHandWhiteRandGen():
         m = random.randrange( note.SHEETLOW.n, note.SHEETHIGH.n - 1 )
         if m == n:
             m += 1
-        yield ( ViewableNote( note.Note( n ).white(), i, i + 10 ), ViewableNote( note.Note( m ).white(), i, i + 10 ) )
+        yield ( ViewableNote( note.Note( n ), i, i + 10 ), ViewableNote( note.Note( m ), i, i + 10 ) )
