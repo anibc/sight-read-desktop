@@ -8,9 +8,28 @@ class ViewableNote( Note ):
         self.st = st
         self.et = et
 
+class ViewableNotesRange():
+    def __init__( self, l, st, et ):
+        self.l = l
+        self.st = st
+        self.et = et
+        self.maxNote = max(( i.n for i in l ))
+        self.minNote = min(( i.n for i in l ))
+        self.stIndex = list(range(len(l)))
+        self.stIndex.sort( key = lambda x: self.l.st )
+        self.etIndex = list(range(len(l)))
+        self.etIndex.sort( key = lambda x: self.l.et )
+
+    def SortedBySt( self ):
+        return [ l[ i ] for i in stIndex ]
+
+    def SortedByEt( self ):
+        return [ l[ i ] for i in etIndex ]
+
 class NoteModel:
     def __init__( self, nextnote=None ):
         self.l = []
+        self.maxSt = -1
         self.nextnote = nextnote
         # self.incoming  = MinHeap( lambda n: n.st )
         # self.windowIn  = MaxHeap( lambda n: n.st )
@@ -30,27 +49,19 @@ class NoteModel:
     def update( self, vn ):
         # TODO implement with heap
         self.l.sort(key= lambda vn: vn.et)
-    def rangeET( self, l, r ):
-        # TODO implement with heap
+    def range( self, l, r ):
+        #TODO implement with heap
         """ generates ViewableNotes from time l to r """
-        self.l.sort( key = lambda vn: vn.et )
-        for vn in self.l:
-            if vn.st <= r and vn.et >= l:
-                yield vn
-    def rangeST( self, l, r ):
-        # TODO implement with heap
-        """ generates ViewableNotes from time l to r """
-        self.l.sort( key = lambda vn: vn.st )
-        while self.nextnote != None and ( len( self.l ) == 0 or self.l[ -1 ].st <= r ):
-            try:
-                a = next( self.nextnote )
-                for b in a:
-                    self.l.append( b )
-            except e:
-                break
-        for vn in self.l:
-            if vn.st <= r and vn.et >= l:
-                yield vn
+        while r >= self.maxSt:
+            if self.nextnote != None:
+                try:
+                    a = next( self.nextnote )
+                    for vn in a:
+                        self.l.append( vn )
+                        self.maxSt = vn.st
+                except e:
+                    break
+        return ViewableNotesRange( list( ( vn for vn in self.l if vn.st <= r and vn.et >= l ) ) )
 
 class Heap:
     def __init__( self, key ):
