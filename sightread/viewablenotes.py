@@ -16,9 +16,9 @@ class ViewableNotesRange():
         self.maxNote = max(( i.n for i in l ))
         self.minNote = min(( i.n for i in l ))
         self.stIndex = list(range(len(l)))
-        self.stIndex.sort( key = lambda x: self.l.st )
+        self.stIndex.sort( key = lambda x: self.l[ x ].st )
         self.etIndex = list(range(len(l)))
-        self.etIndex.sort( key = lambda x: self.l.et )
+        self.etIndex.sort( key = lambda x: self.l[ x ].et )
 
     def SortedBySt( self ):
         return [ l[ i ] for i in stIndex ]
@@ -61,7 +61,7 @@ class NoteModel:
                         self.maxSt = vn.st
                 except e:
                     break
-        return ViewableNotesRange( list( ( vn for vn in self.l if vn.st <= r and vn.et >= l ) ) )
+        return ViewableNotesRange( list( ( vn for vn in self.l if vn.st <= r and vn.et >= l ) ), l, r )
 
 class Heap:
     def __init__( self, key ):
