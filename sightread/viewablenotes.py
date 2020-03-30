@@ -11,20 +11,21 @@ class ViewableNote( Note ):
 class ViewableNotesRange():
     def __init__( self, l, st, et ):
         self.l = l
+        print([(vn.st, vn.et) for vn in l])
         self.st = st
         self.et = et
-        self.maxNote = max(( i.n for i in l ))
-        self.minNote = min(( i.n for i in l ))
+        self.maxNote = max(( i.n for i in l )) if len(l) else ViewableNote(Note(60), 0, 10)
+        self.minNote = min(( i.n for i in l )) if len(l) else ViewableNote(Note(60), 0, 10)
         self.stIndex = list(range(len(l)))
         self.stIndex.sort( key = lambda x: self.l[ x ].st )
         self.etIndex = list(range(len(l)))
         self.etIndex.sort( key = lambda x: self.l[ x ].et )
 
     def SortedBySt( self ):
-        return [ l[ i ] for i in stIndex ]
+        return [ self.l[ i ] for i in self.stIndex ]
 
     def SortedByEt( self ):
-        return [ l[ i ] for i in etIndex ]
+        return [ self.l[ i ] for i in self.etIndex ]
 
 class NoteModel:
     def __init__( self, nextnote=None ):
@@ -52,15 +53,14 @@ class NoteModel:
     def range( self, l, r ):
         #TODO implement with heap
         """ generates ViewableNotes from time l to r """
-        while r >= self.maxSt:
-            if self.nextnote != None:
-                try:
-                    a = next( self.nextnote )
-                    for vn in a:
-                        self.l.append( vn )
-                        self.maxSt = vn.st
-                except e:
-                    break
+        while r >= self.maxSt and self.nextnote != None:
+            try:
+                a = next( self.nextnote )
+                for vn in a:
+                    self.l.append( vn )
+                    self.maxSt = vn.st
+            except e:
+                break
         return ViewableNotesRange( list( ( vn for vn in self.l if vn.st <= r and vn.et >= l ) ), l, r )
 
 class Heap:

@@ -65,9 +65,9 @@ class SheetWidget(QWidget):
         # return NotImplemented
         qp.setFont( QtGui.QFont("Times", 30) )
         width = self.size().width()
-        for n in self.player.tracknotes.rangeST( self.player.curtime, self.player.curtime + width / 10):
+        for n in self.player.tracknotes.range( self.player.curtime, self.player.curtime + width / 10).SortedBySt():
             self.draw_note( qp, n )
-        for n in self.player.playednotes.rangeST(0,width / 10):
+        for n in self.player.playednotes.range(0,width / 10).SortedBySt():
             y = self.height_from_note( n ) + 6 #qp.fontInfo().pixelSize() // 8
             qp.drawText( 80 + n.st * 10, y, u'\U0001D15D')
             if not n.isWhite():
