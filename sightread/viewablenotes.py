@@ -11,7 +11,6 @@ class ViewableNote( Note ):
 class ViewableNotesRange():
     def __init__( self, l, st, et ):
         self.l = l
-        print([(vn.st, vn.et) for vn in l])
         self.st = st
         self.et = et
         self.maxNote = max(( i.n for i in l )) if len(l) else ViewableNote(Note(60), 0, 10)
