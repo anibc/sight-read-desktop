@@ -5,7 +5,8 @@ from sightread.midi.input import MIDIListener, register, deregister
 from sightread import note
 
 # dist_between_lines = dist_between_notes * 2 + 1
-dist_from_top = 0
+dist_from_top = 50
+dist_from_bottom = 50
 dist_between_notes = 5
 middle_gap = dist_between_notes * 5
 middle_c_n8 = note.MIDDLEC.n8 # 40
@@ -13,11 +14,20 @@ middle_c_n8 = note.MIDDLEC.n8 # 40
 class SheetWidget(QWidget):
     def __init__(self, player):
         super().__init__()
+        self.top_offset = 0
         self.player = player
         self.initUI()
 
     def initUI( self ):
-        self.setMinimumHeight( self.height_from_note( note.Note( note.SHEETLOW.n - 5 ) ) ) # TODO: derive exact required height from dist_between_notes
+        self.lefttime = self.player.curtime
+        self.righttime = self.lefttime + self.size().width() // 10
+        self.playednotesrange = self.player.playednotes.range(self.lefttime, self.righttime)
+        self.tracknotesrange = self.player.tracknotes.range(self.lefttime, self.righttime)
+        min_note = note.Note( min( [ self.tracknotesrange.minNote.n, self.playednotesrange.minNote.n, note.SHEETLOW.n ] ) )
+        max_note = note.Note( max( [ self.tracknotesrange.maxNote.n, self.playednotesrange.maxNote.n, note.SHEETHIGH.n ] ) )
+        self.top_offset = self.height_from_note(max_note) - dist_from_top
+        # self.setMinimumHeight( self.height_from_note( note.Note( note.SHEETLOW.n - 5 ) ) ) # TODO: derive exact required height from dist_between_notes
+        self.setMinimumHeight( dist_from_top + dist_from_bottom + abs(self.height_from_note(max_note) - self.height_from_note(min_note) ) )
 
     def paintEvent( self, e ):
         qp = QtGui.QPainter()
@@ -73,11 +83,13 @@ class SheetWidget(QWidget):
             if not n.isWhite():
                 qp.drawText( 80 + ( n.st - self.player.curtime ) * 10 - 10, y, u'\U0001D12C')
 
-    def height_from_note( self, n ):
-        return self.height_from_n8( n.n8 )
+    def height_from_note( self, n, top_offset=None ):
+        if top_offset == None: top_offset = self.top_offset
+        return self.height_from_n8( n.n8, top_offset )
 
-    def height_from_n8( self, n8 ):
-        y = ( 120 - n8 ) * ( dist_between_notes + 1 ) + dist_from_top
+    def height_from_n8( self, n8, top_offset=None ):
+        if top_offset == None: top_offset = self.top_offset
+        y = ( 120 - n8 ) * ( dist_between_notes + 1 ) + dist_from_top - top_offset
         if n8 == middle_c_n8:
             y += middle_gap
         elif n8 < middle_c_n8:

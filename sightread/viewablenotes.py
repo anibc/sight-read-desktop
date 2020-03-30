@@ -13,8 +13,8 @@ class ViewableNotesRange():
         self.l = l
         self.st = st
         self.et = et
-        self.maxNote = max(( i.n for i in l )) if len(l) else ViewableNote(Note(60), 0, 10)
-        self.minNote = min(( i.n for i in l )) if len(l) else ViewableNote(Note(60), 0, 10)
+        self.maxNote = Note(max(( i.n for i in l ))) if len(l) else ViewableNote(Note(60), 0, 10)
+        self.minNote = Note(min(( i.n for i in l ))) if len(l) else ViewableNote(Note(60), 0, 10)
         self.stIndex = list(range(len(l)))
         self.stIndex.sort( key = lambda x: self.l[ x ].st )
         self.etIndex = list(range(len(l)))
