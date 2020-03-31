@@ -19,8 +19,6 @@ class SheetWidget(QWidget):
         self.initUI()
 
     def initUI( self ):
-        self.lefttime = self.player.curtime
-        self.righttime = self.lefttime + self.size().width() // 10
         self.update_ranges()
         min_note = note.Note( min( [ self.tracknotesrange.minNote.n, self.playednotesrange.minNote.n, note.SHEETLOW.n ] ) )
         max_note = note.Note( max( [ self.tracknotesrange.maxNote.n, self.playednotesrange.maxNote.n, note.SHEETHIGH.n ] ) )
@@ -45,6 +43,8 @@ class SheetWidget(QWidget):
         self.draw_notes( qp )
 
     def update_ranges(self):
+        self.lefttime = self.player.curtime
+        self.righttime = self.lefttime + self.size().width() // 10
         self.playednotesrange = self.player.playednotes.range(0, self.righttime - self.lefttime)
         self.tracknotesrange = self.player.tracknotes.range(self.lefttime, self.righttime)
 
