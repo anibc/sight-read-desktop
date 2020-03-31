@@ -21,12 +21,10 @@ class SheetWidget(QWidget):
     def initUI( self ):
         self.lefttime = self.player.curtime
         self.righttime = self.lefttime + self.size().width() // 10
-        self.playednotesrange = self.player.playednotes.range(self.lefttime, self.righttime)
-        self.tracknotesrange = self.player.tracknotes.range(self.lefttime, self.righttime)
+        self.update_ranges()
         min_note = note.Note( min( [ self.tracknotesrange.minNote.n, self.playednotesrange.minNote.n, note.SHEETLOW.n ] ) )
         max_note = note.Note( max( [ self.tracknotesrange.maxNote.n, self.playednotesrange.maxNote.n, note.SHEETHIGH.n ] ) )
         self.top_offset = self.height_from_note(max_note) - dist_from_top
-        # self.setMinimumHeight( self.height_from_note( note.Note( note.SHEETLOW.n - 5 ) ) ) # TODO: derive exact required height from dist_between_notes
         self.setMinimumHeight( dist_from_top + dist_from_bottom + abs(self.height_from_note(max_note) - self.height_from_note(min_note) ) )
 
     def paintEvent( self, e ):
@@ -41,9 +39,14 @@ class SheetWidget(QWidget):
         # qp.setFont(QtGui.QFont('Arial', 30))
         # qp.drawText(40,40, str(self.size().width()) )
         # qp.drawGlyphRun();
+        self.update_ranges()
         self.draw_static_lines( qp )
         self.draw_note_lines( qp )
         self.draw_notes( qp )
+
+    def update_ranges(self):
+        self.playednotesrange = self.player.playednotes.range(0, self.righttime - self.lefttime)
+        self.tracknotesrange = self.player.tracknotes.range(self.lefttime, self.righttime)
 
     def draw_static_lines( self, qp ):
         qp.setPen(QtGui.QColor(10, 10, 10))
@@ -70,21 +73,17 @@ class SheetWidget(QWidget):
 
     def draw_notes( self, qp ):
         # https://unicode-table.com/en/blocks/musical-symbols/
-        # qp.drawText(40,40, u'\u266D')
-        # qp.drawText(48,40, u'\U0001D15D')
-        # return NotImplemented
         qp.setFont( QtGui.QFont("Times", 30) )
         width = self.size().width()
-        for n in self.player.tracknotes.range( self.player.curtime, self.player.curtime + width / 10).SortedBySt():
+        for n in self.tracknotesrange.SortedBySt():
             self.draw_note( qp, n )
-        for n in self.player.playednotes.range(0,width / 10).SortedBySt():
+        for n in self.playednotesrange.SortedBySt():
             y = self.height_from_note( n ) + 6 #qp.fontInfo().pixelSize() // 8
             qp.drawText( 80 + n.st * 10, y, u'\U0001D15D')
             if not n.isWhite():
                 qp.drawText( 80 + ( n.st - self.player.curtime ) * 10 - 10, y, u'\U0001D12C')
 
     def height_from_note( self, n, top_offset=None ):
-        if top_offset == None: top_offset = self.top_offset
         return self.height_from_n8( n.n8, top_offset )
 
     def height_from_n8( self, n8, top_offset=None ):

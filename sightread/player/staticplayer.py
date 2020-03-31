@@ -14,13 +14,11 @@ class StaticPlayer( Player ):
         self.midi_input = mido.open_input( midiname, callback=self.midi_callback )
 
     def midi_callback( self, msg ):
-        #st = 10 + list(self.playednotes.rangeST(0,100000))[-1].st
         print( msg )
         if msg.type == 'note_on':
             self.playednotes.insert( ViewableNote( msg.note, 0, 10 ) )
             left = list( filter( lambda n: n.st == self.tracknotes.l[ 0 ].st, self.tracknotes.l ) )
             if all( ( i in set( [ n.n for n in self.playednotes.l ] ) for i in set( [ n.n for n in left ] ) ) ):
-                # self.curtime = left[ 0 ].st + 1
                 self.curtime += 10
                 for n in left:
                     self.tracknotes.remove( n )
