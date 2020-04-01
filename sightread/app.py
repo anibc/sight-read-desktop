@@ -11,5 +11,11 @@ class App:
         mainWin.show()
         sys.exit( app.exec_() )
     def initialize_logging(self):
-        logging.basicConfig(filename='app.log', format='%(asctime)s %(levelname)s: %(message)s', level=logging.DEBUG)
+        form = logging.Formatter('%(asctime)s|%(levelname)s: %(message)s')
+        hdlr = logging.FileHandler('app.log')
+        hdlr.setFormatter(form)
+        logger = logging.getLogger('sightread')
+        logger.addHandler(hdlr)
+        logger.setLevel('DEBUG')
+        # logging.basicConfig(filename='app.log', format='%(asctime)s %(levelname)s: %(message)s', level=logging.DEBUG)
 

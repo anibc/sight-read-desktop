@@ -15,12 +15,12 @@ middle_c_n8 = note.MIDDLEC.n8 # 40
 class SheetWidget(QWidget):
     def __init__(self, player):
         super().__init__()
-        # self.logger = logging.getLogger(__name__)
+        self.logger = logging.getLogger(__name__)
         self.top_offset = 0
         self.player = player
         self.initUI()
-        # self.logger.info('SheetWidget initialized')
-        logging.info('works?')
+        self.logger.info('SheetWidget initialized')
+        # logging.info('works?')
 
     def initUI( self ):
         self.update_ranges()
