@@ -14,6 +14,14 @@ def select_input( name ):
         port = None
     port = mido.open_input( name, callback=notify_all )
 
+def start():
+    names = get_input_names()
+    v61s = list(filter(lambda name: name.startswith('V61') and name.endswith('0'), names))
+    if len(v61s):
+        select_input(v61s[0])
+    else:
+        select_input(names[0])
+
 def notify_all( msg ):
     global listeners
     for i in listeners:
@@ -35,6 +43,8 @@ def deregister( obj ):
     global listeners
     if obj in listeners:
         listeners.remove( obj )
+
+start()
 
 if __name__ == '__main__':
     print( get_input_names() )
