@@ -8,12 +8,14 @@ port = None
 listeners = set()
 
 def select_input( name ):
+    global port
     if port:
         port.close()
         port = None
     port = mido.open_input( name, callback=notify_all )
 
 def notify_all( msg ):
+    global listeners
     for i in listeners:
         i.on_midi_input( msg )
 
@@ -23,12 +25,14 @@ class MIDIListener(metaclass=ABCMeta):
         pass
 
 def register( obj ):
+    global listeners
     if isinstance( obj, MIDIListener ):
         listeners.add( obj )
     else:
         raise TypeError( "Expected MIDIListener type not {}".format( type(obj) ) )
 
 def deregister( obj ):
+    global listeners
     if obj in listeners:
         listeners.remove( obj )
 
