@@ -1,19 +1,21 @@
 import mido
+import sightread.midi.input as midiinput
 from sightread.viewablenotes import ViewableNote, NoteModel
 from sightread.player import Player
 from sightread import note
 import random
 
-class StaticPlayer( Player ):
+class StaticPlayer( Player, midiinput.MIDIListener ):
     def __init__( self, sl ):
         self.sl = sl
         self.tracknotes = NoteModel( TwoHandWhiteRandGen() )
         self.playednotes = NoteModel()
         self.curtime = 0
-        midiname = next( ( n for n in mido.get_input_names() if 'V61' in n ) )
-        self.midi_input = mido.open_input( midiname, callback=self.midi_callback )
+        midiinput.register(self)
+        # midiname = next( ( n for n in mido.get_input_names() if 'V61' in n ) )
+        # self.midi_input = mido.open_input( midiname, callback=self.midi_callback )
 
-    def midi_callback( self, msg ):
+    def on_midi_input( self, msg ):
         print( msg )
         if msg.type == 'note_on':
             self.playednotes.insert( ViewableNote( msg.note, 0, 10 ) )
