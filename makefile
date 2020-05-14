@@ -1,6 +1,13 @@
+P3=../venv/qsightread/bin/python3
+
 run:
-	black --check .
-	python3 main.py
+	$(P3) main.py
+
+check_black:
+	$(P3) -m black --check .
+
+black:
+	$(P3) -m black .
 
 clean:
 	find . -name *.pyc -delete

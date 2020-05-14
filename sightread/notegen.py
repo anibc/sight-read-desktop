@@ -1,5 +1,7 @@
 from sightread import note
 from sightread.viewablenotes import ViewableNote
+
+
 """
 Random or serial note/chord generators
 
@@ -16,13 +18,16 @@ inputs:
 
 # Always return list of notes
 
+
 class NoteGen:
     """
     create and instance ngen using generation options
     and call next(ngen) or iterate through object to
     generate set of Notes
     """
+
     def __init__(self):
         pass
+
     def __iter__(self):
-        yield [ ViewableNote(note.Note(note.MIDDLEC)) ]
+        yield [ViewableNote(note.Note(note.MIDDLEC))]
