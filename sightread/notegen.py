@@ -42,9 +42,18 @@ class CustomGen(NoteGen):
     """
 
     def __init__(self, args):
-        pass
+        self.low = args['low']
+        self.high = args['high']
+
+        self.allowed = args['allowed']
+        self.frequency_low = args['freq_low']
+        self.frequency_high = args['freq_high']
 
     def next(self):
+        """
+        find left and right handed notes separately
+        for now, ignore any notes impossible to add
+        """
         pass
 
 
