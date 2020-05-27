@@ -22,12 +22,15 @@ inputs:
 class NoteGen:
     """
     create and instance ngen using generation options
-    and call next(ngen) or iterate through object to
-    generate set of Notes
+    and call ngen.next() or next(ngen) or iterate
+    through object to generate set of Notes
     """
 
     def __init__(self):
         pass
 
     def __iter__(self):
-        yield [ViewableNote(note.Note(note.MIDDLEC))]
+        yield self.next()
+
+    def next(self):
+        return [ViewableNote(note.Note(note.MIDDLEC))]
