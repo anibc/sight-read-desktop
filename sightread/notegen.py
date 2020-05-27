@@ -34,3 +34,32 @@ class NoteGen:
 
     def next(self):
         return [ViewableNote(note.Note(note.MIDDLEC))]
+
+class CustomGen(NoteGen):
+    """
+    source is Notes
+    """
+    def __init__(self, args):
+        pass
+
+    def next(self):
+        pass
+
+class PatternGen(NoteGen):
+    """
+    source is patterns(major, minor)
+    """
+    pass
+
+class PresetGen(NoteGen):
+    """
+    source is File/Series(i.e. Hanon)
+    """
+    pass
+
+def NoteGenFactory(args):
+    GenMap = {'Notes': CustomGen, 'Pattern': PatternGen, 'Preset': PresetGen}
+    return GenMap[args['source']](args)
+
+
+
