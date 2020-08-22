@@ -1,5 +1,6 @@
 from sightread import note
 from sightread.viewablenotes import ViewableNote
+import random
 
 
 """

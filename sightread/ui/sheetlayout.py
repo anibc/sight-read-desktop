@@ -3,12 +3,15 @@ from sightread.ui.sheetwidget import SheetWidget
 from sightread.ui.keyboardwidget import KeyboardWidget
 from sightread.ui.waterfallwidget import WaterfallWidget
 from sightread.player.staticplayer import StaticPlayer
+from sightread.player.dynamicplayer import DynamicPlayer
 
 
 class SheetLayout(QWidget):
     def __init__(self):
         super().__init__()
-        self.player = StaticPlayer(self)
+        # self.player = StaticPlayer(self)
+        self.player = DynamicPlayer(self)
+        self.player.play()
         self.initUI()
 
     def initUI(self):
