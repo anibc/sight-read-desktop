@@ -28,6 +28,7 @@ class MeasureList:
         self.l.append(Measure())
 
     def __getitem__(self, key):
+        key = int(key)
         if self.transient:
             if key - self.first < len(self.l):
                 return self.l[len(self.l) - 1 - key + self.first]
@@ -78,7 +79,7 @@ class NoteModel:
         b = time * bps
         measure = b // beats
         b -= measure * beats
-        lastXInMeasure = self.measures[measure].lastX
+        lastXInMeasure = self.measures[measure].lastX()
         xInMeasure = b / width
         prevX = measure * fullWidth + XPerBeat
         if xInMeasure < lastXInMeasure:
@@ -118,7 +119,7 @@ class NoteModel:
         "appends note as viewablenote in next available beat"
         lastm = self.measures.last
         lastx = self.measures[lastm].lastX()
-        if lastm == 0 and len(self.measures[lastm]) == 0:
+        if lastm == 0 and len(self.measures[lastm].l) == 0:
             for note in notes:
                 self.measures[lastm].append(ViewableNote(note, lastx))
         elif lastx < 3 * XPerBeat:

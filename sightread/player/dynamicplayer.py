@@ -2,7 +2,7 @@ import mido, random, logging
 from PyQt5.QtCore import QTimer
 import sightread.midi.input as midiinput
 from sightread.viewablenotes import ViewableNote
-from sightread.notemodel import NoteModel
+from sightread.notemodel import NoteModel, XPerBeat
 from sightread.player import Player
 from sightread import note
 
@@ -27,7 +27,7 @@ class DynamicPlayer(Player, midiinput.MIDIListener):
 
     @bpm.setter
     def bpm(self, value):
-        pvalue = _bpm
+        pvalue = self._bpm
         self.curtime = self.curtime / value * pvalue
         self._bpm = value
 
@@ -55,8 +55,11 @@ class DynamicPlayer(Player, midiinput.MIDIListener):
         self.bpm += 1
         while True:
             last = self.tracknotes.measures.last
-            if self.tracknotes.measures[last].lastX() < self.tracknotes.timeToX(self.curtime, self.bpm) + self.sl.sw.size().width():
-                self.tracknotes.appendNextBeat(OneHandWhiteRandGen)
+            if last * (1+XPerBeat) + self.tracknotes.measures[last].lastX() < self.tracknotes.timeToX(self.curtime, self.bpm) + self.sl.sw.size().width():
+                gen = OneHandWhiteRandGen()
+                self.tracknotes.appendNextBeat(next(gen))
+                # self.logger.info(self.tracknotes.measures[self.tracknotes.measures.last].lastX())
+                # break
             else:
                 break
 
@@ -84,6 +87,6 @@ class DynamicPlayer(Player, midiinput.MIDIListener):
 def OneHandWhiteRandGen():
     while True:
         n = random.randrange(note.SHEETLOW.n, note.SHEETHIGH.n)
-        yield (note.Note(n).white())
+        yield (note.Note(n).white(),)
 
 
