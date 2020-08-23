@@ -43,12 +43,12 @@ class CustomGen(NoteGen):
     """
 
     def __init__(self, args):
-        self.low = args['low']
-        self.high = args['high']
+        self.low = args["low"]
+        self.high = args["high"]
 
-        self.allowed = args['allowed']
-        self.frequency_low = args['freq_low']
-        self.frequency_high = args['freq_high']
+        self.allowed = args["allowed"]
+        self.frequency_low = args["freq_low"]
+        self.frequency_high = args["freq_high"]
 
     def next(self):
         """

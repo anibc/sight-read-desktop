@@ -75,9 +75,7 @@ class SheetWidget(QWidget):
         # self.playednotesrange = self.player.playednotes.range(
         #     0, self.righttime - self.lefttime
         # )
-        self.tracknotesrange = self.player.tracknotes.range(
-            self.leftx, self.rightx
-        )
+        self.tracknotesrange = self.player.tracknotes.range(self.leftx, self.rightx)
 
     def draw_static_lines(self, qp):
         qp.setPen(QtGui.QColor(10, 10, 10))

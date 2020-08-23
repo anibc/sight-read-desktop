@@ -1,7 +1,8 @@
 from sightread.note import Note
 
+
 class ViewableNote(Note):
-    def __init__(self, n, x): #x is relative to sheet start (not measure start)
+    def __init__(self, n, x):  # x is relative to sheet start (not measure start)
         if type(n) == Note:
             super().__init__(n.n)
         else:
@@ -21,5 +22,3 @@ class ViewableNotesRange:
             Note(min((i.n for i in l))) if len(l) else ViewableNote(Note(60), 10)
         )
         self.l.sort(key=lambda x: x.x)
-
-

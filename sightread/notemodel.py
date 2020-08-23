@@ -1,21 +1,26 @@
 from sightread.note import Note
 from sightread.viewablenotes import ViewableNote, ViewableNotesRange
 
-XPerBeat = 50 # x axis separation value per beat
+XPerBeat = 50  # x axis separation value per beat
+
 
 class Measure:
     def __init__(self):
         self.l = []
+
     def lastX(self):
         if len(self.l) < 1:
             return 0
         return self.l[-1].x
+
     def append(self, note):
         if note.x < self.lastX():
             raise ValueError
         self.l.append(note)
 
+
 EmptyMeasure = Measure()
+
 
 class MeasureList:
     def __init__(self, transient=False, capacity=20):
@@ -56,10 +61,12 @@ class MeasureList:
         else:
             self.l.append(measure)
 
+
 class TimeSignature:
     def __init__(self, beats=4, beatType=4):
         self.beats = beats
         self.beatType = beatType
+
 
 class NoteModel:
     def __init__(self, timesig=TimeSignature(), transient=False):
@@ -97,17 +104,22 @@ class NoteModel:
     def range(self, l, r):
         "returns NoteRange from x value l to x value r"
         lst = []
-        for m in range(int(l // ((1+self.timesignature.beats)*XPerBeat)), int(2 + r // ((1+self.timesignature.beats)*XPerBeat))):
+        for m in range(
+            int(l // ((1 + self.timesignature.beats) * XPerBeat)),
+            int(2 + r // ((1 + self.timesignature.beats) * XPerBeat)),
+        ):
             for vn in self.measures[m].l:
                 if l <= vn.x <= r:
-                    vn = ViewableNote(vn.n, vn.x + m * (1+self.timesignature.beats) * XPerBeat)
+                    vn = ViewableNote(
+                        vn.n, vn.x + m * (1 + self.timesignature.beats) * XPerBeat
+                    )
                     lst.append(vn)
         return ViewableNotesRange(lst, l, r)
 
     def barlines(self, l, r):
         "returns list of x values at which bar lines must be drawn"
         ret = []
-        width = (1+self.timesignature.beats) * XPerBeat
+        width = (1 + self.timesignature.beats) * XPerBeat
         x = l // width
         while x <= r:
             if x >= l:
@@ -130,7 +142,3 @@ class NoteModel:
             lastm += 1
             for note in notes:
                 self.measures[lastm].append(ViewableNote(note, 0))
-
-
-
-

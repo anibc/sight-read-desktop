@@ -9,6 +9,7 @@ from sightread import note
 FPS = 20
 MinBPM = 10
 
+
 class DynamicPlayer(Player, midiinput.MIDIListener):
     def __init__(self, sl):
         self.logger = logging.getLogger(__name__)
@@ -33,8 +34,8 @@ class DynamicPlayer(Player, midiinput.MIDIListener):
 
     def initQTimer(self):
         qt = QTimer()
-        qt.setTimerType(0) # PreciseTimer
-        qt.setInterval(1000//FPS)
+        qt.setTimerType(0)  # PreciseTimer
+        qt.setInterval(1000 // FPS)
         qt.timeout.connect(self.timerTimeout)
         return qt
 
@@ -46,7 +47,7 @@ class DynamicPlayer(Player, midiinput.MIDIListener):
 
     def initSecondQTimer(self):
         qt = QTimer()
-        qt.setTimerType(0) # PreciseTimer
+        qt.setTimerType(0)  # PreciseTimer
         qt.setInterval(1000)
         qt.timeout.connect(self.secondTimerTimeout)
         return qt
@@ -55,7 +56,11 @@ class DynamicPlayer(Player, midiinput.MIDIListener):
         self.bpm += 1
         while True:
             last = self.tracknotes.measures.last
-            if last * (1+XPerBeat) + self.tracknotes.measures[last].lastX() < self.tracknotes.timeToX(self.curtime, self.bpm) + self.sl.sw.size().width():
+            if (
+                last * (1 + XPerBeat) + self.tracknotes.measures[last].lastX()
+                < self.tracknotes.timeToX(self.curtime, self.bpm)
+                + self.sl.sw.size().width()
+            ):
                 gen = OneHandWhiteRandGen()
                 self.tracknotes.appendNextBeat(next(gen))
                 # self.logger.info(self.tracknotes.measures[self.tracknotes.measures.last].lastX())
@@ -84,9 +89,8 @@ class DynamicPlayer(Player, midiinput.MIDIListener):
             return
         self.sl.update()
 
+
 def OneHandWhiteRandGen():
     while True:
         n = random.randrange(note.SHEETLOW.n, note.SHEETHIGH.n)
         yield (note.Note(n).white(),)
-
-
