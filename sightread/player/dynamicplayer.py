@@ -7,6 +7,7 @@ from sightread.player import Player
 from sightread import note
 
 FPS = 20
+MinBPM = 10
 
 class DynamicPlayer(Player, midiinput.MIDIListener):
     def __init__(self, sl):
@@ -17,6 +18,7 @@ class DynamicPlayer(Player, midiinput.MIDIListener):
         self.curtime = 0
         self._bpm = 10
         self.timer = self.initQTimer()
+        self.secondTimer = self.initSecondQTimer()
         midiinput.register(self)
 
     @property
@@ -42,11 +44,29 @@ class DynamicPlayer(Player, midiinput.MIDIListener):
         # self.logger.info("timer elapsed, curtime: " + str(self.curtime))
         self.sl.update()
 
+    def initSecondQTimer(self):
+        qt = QTimer()
+        qt.setTimerType(0) # PreciseTimer
+        qt.setInterval(1000)
+        qt.timeout.connect(self.secondTimerTimeout)
+        return qt
+
+    def secondTimerTimeout(self):
+        self.bpm += 1
+        while True:
+            last = self.tracknotes.measures.last
+            if self.tracknotes.measures[last].lastX() < self.tracknotes.timeToX(self.curtime, self.bpm) + self.sl.sw.size().width():
+                self.tracknotes.appendNextBeat(OneHandWhiteRandGen)
+            else:
+                break
+
     def play(self):
         self.timer.start()
+        self.secondTimer.start()
 
     def pause(self):
         self.timer.stop()
+        self.secondTimer.stop()
 
     def stop(self):
         self.curtime = -3
@@ -61,5 +81,9 @@ class DynamicPlayer(Player, midiinput.MIDIListener):
             return
         self.sl.update()
 
+def OneHandWhiteRandGen():
+    while True:
+        n = random.randrange(note.SHEETLOW.n, note.SHEETHIGH.n)
+        yield (note.Note(n).white())
 
 
