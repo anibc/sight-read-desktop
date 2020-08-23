@@ -1,9 +1,7 @@
 from sightread.note import Note
-from sightread.viewablenotes import *
+from sightread.viewablenotes import ViewableNote, ViewableNotesRange
 
 XPerBeat = 50 # x axis separation value per beat
-
-EmptyMeasure = Measure()
 
 class Measure:
     def __init__(self):
@@ -17,8 +15,10 @@ class Measure:
             raise ValueError
         self.l.append(note)
 
+EmptyMeasure = Measure()
+
 class MeasureList:
-    def __init__(self, transient=false, capacity=20):
+    def __init__(self, transient=False, capacity=20):
         self.transient = transient
         self.capacity = capacity
         self.l = list()
@@ -28,7 +28,7 @@ class MeasureList:
         self.l.append(Measure())
 
     def __getitem__(self, key):
-        if transient:
+        if self.transient:
             if key - self.first < len(self.l):
                 return self.l[len(self.l) - 1 - key + self.first]
             return self.r[key - self.first - len(self.l)]
@@ -42,7 +42,7 @@ class MeasureList:
 
     def append(self, measure):
         self.last += 1
-        if transient:
+        if self.transient:
             self.r.append(measure)
             if len(self.l) + len(self.r) > self.capacity:
                 self.first += 1
@@ -61,13 +61,13 @@ class TimeSignature:
         self.beatType = beatType
 
 class NoteModel:
-    def __init__(self, timesig=TimeSignature(), transient=false):
+    def __init__(self, timesig=TimeSignature(), transient=False):
         self._measures = MeasureList(transient)
         self.timesignature = timesig
 
     @property
     def measures(self):
-        return _measures
+        return self._measures
 
     def timeToX(self, time, bpm):
         "maps time for given bpm to x in NoteModel"
@@ -96,12 +96,12 @@ class NoteModel:
     def range(self, l, r):
         "returns NoteRange from x value l to x value r"
         lst = []
-        for m in range(l // ((1+self.timesignature.beats)*XPerBeat), 2 + r // ((1+self.timesignature.beats)*XPerBeat)):
+        for m in range(int(l // ((1+self.timesignature.beats)*XPerBeat)), int(2 + r // ((1+self.timesignature.beats)*XPerBeat))):
             for vn in self.measures[m].l:
                 if l <= vn.x <= r:
                     vn = ViewableNote(vn.n, vn.x + m * (1+self.timesignature.beats) * XPerBeat)
                     lst.append(vn)
-        return NoteRange(lst, l, r)
+        return ViewableNotesRange(lst, l, r)
 
     def barlines(self, l, r):
         "returns list of x values at which bar lines must be drawn"

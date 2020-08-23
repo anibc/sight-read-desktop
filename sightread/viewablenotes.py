@@ -10,15 +10,15 @@ class ViewableNote(Note):
 
 
 class ViewableNotesRange:
-    def __init__(self, l, st, et):
+    def __init__(self, l, sx, ex):
         self.l = l
         self.sx = sx
         self.ex = ex
         self.maxNote = (
-            Note(max((i.n for i in l))) if len(l) else ViewableNote(Note(60), 0, 10)
+            Note(max((i.n for i in l))) if len(l) else ViewableNote(Note(60), 10)
         )
         self.minNote = (
-            Note(min((i.n for i in l))) if len(l) else ViewableNote(Note(60), 0, 10)
+            Note(min((i.n for i in l))) if len(l) else ViewableNote(Note(60), 10)
         )
         self.l.sort(key=lambda x: x.x)
 
