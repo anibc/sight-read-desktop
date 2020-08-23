@@ -114,13 +114,22 @@ class NoteModel:
                 x += width
         return ret
 
-    def appendNextBeat(self, note):
+    def appendNextBeat(self, notes):
         "appends note as viewablenote in next available beat"
         lastm = self.measures.last
         lastx = self.measures[lastm].lastX()
-        if len(self.measures[lastm]) > 0 and lastx < 3 * XPerBeat:
-            self.measures[lastm].append(ViewableNote(note, lastx + XPerBeat))
-        self.measures.append(Measure())
-        lastm += 1
-        self.measures[lastm].append(ViewableNote(note, 0))
+        if lastm == 0 and len(self.measures[lastm]) == 0:
+            for note in notes:
+                self.measures[lastm].append(ViewableNote(note, lastx))
+        elif lastx < 3 * XPerBeat:
+            for note in notes:
+                self.measures[lastm].append(ViewableNote(note, lastx + XPerBeat))
+        else:
+            self.measures.append(Measure())
+            lastm += 1
+            for note in notes:
+                self.measures[lastm].append(ViewableNote(note, 0))
+
+
+
 
