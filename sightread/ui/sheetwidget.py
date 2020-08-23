@@ -4,6 +4,7 @@ import PyQt5.QtGui as QtGui
 from sightread import mode
 from sightread.midi.input import MIDIListener, register, deregister
 from sightread import note
+from sightread.viewablenotes import ViewableNote
 
 # dist_between_lines = dist_between_notes * 2 + 1
 dist_from_top = 50
@@ -68,13 +69,13 @@ class SheetWidget(QWidget):
         self.draw_notes(qp)
 
     def update_ranges(self):
-        self.lefttime = self.player.curtime
-        self.righttime = self.lefttime + self.size().width() // 10
+        self.leftx = self.player.curtime - 150
+        self.rightx = self.leftx + self.size().width() - 150
         self.playednotesrange = self.player.playednotes.range(
             0, self.righttime - self.lefttime
         )
         self.tracknotesrange = self.player.tracknotes.range(
-            self.lefttime, self.righttime
+            self.leftx, self.rightx
         )
 
     def draw_static_lines(self, qp):
@@ -94,25 +95,21 @@ class SheetWidget(QWidget):
     def draw_bottom_note_lines(self, qp):
         pass
 
-    def draw_note(self, qp, n):
-        y = self.height_from_note(n) + 6  # qp.fontInfo().pixelSize() // 8
-        qp.drawText(80 + (n.st - self.player.curtime) * 10, y, u"\U0001D15D")
+    def draw_note(self, qp, vn):
+        y = self.height_from_note(vn) + 6  # qp.fontInfo().pixelSize() // 8
+        qp.drawText(80 + n.x, y, u"\U0001D15D")
         if not n.isWhite():
-            qp.drawText(80 + (n.st - self.player.curtime) * 10 - 10, y, u"\U0001D12C")
+            qp.drawText(80 + n.x - 10, y, u"\U0001D12C")
 
     def draw_notes(self, qp):
         # https://unicode-table.com/en/blocks/musical-symbols/
         qp.setFont(QtGui.QFont("Times", 30))
         width = self.size().width()
-        for n in self.tracknotesrange.SortedBySt():
-            self.draw_note(qp, n)
-        for n in self.playednotesrange.SortedBySt():
-            y = self.height_from_note(n) + 6  # qp.fontInfo().pixelSize() // 8
-            qp.drawText(80 + n.st * 10, y, u"\U0001D15D")
-            if not n.isWhite():
-                qp.drawText(
-                    80 + (n.st - self.player.curtime) * 10 - 10, y, u"\U0001D12C"
-                )
+        for vn in self.tracknotesrange.l():
+            self.draw_note(qp, vn)
+        for n in self.playednotesrange:
+            vn = ViewableNote(n, 50)
+            self.draw_note(qp, vn)
 
     def height_from_note(self, n, top_offset=None):
         return self.height_from_n8(n.n8, top_offset)
