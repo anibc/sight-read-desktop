@@ -82,8 +82,9 @@ class SheetWidget(QWidget):
         #     0, self.righttime - self.lefttime
         # )
         self.tracknotesrange = self.player.tracknotes.range(self.leftx, self.rightx)
-        for vn in self.tracknotesrange.l:
-            self.logger.debug("x: {}".format(vn.x))
+        self.logger.debug("# of notes: {}".format(len(self.tracknotesrange.l)))
+        # for vn in self.tracknotesrange.l:
+        #     self.logger.debug("x: {}".format(vn.x))
 
     def draw_static_lines(self, qp):
         qp.setPen(QtGui.QColor(10, 10, 10))

@@ -109,7 +109,7 @@ class NoteModel:
             int(2 + r // ((1 + self.timesignature.beats) * XPerBeat)),
         ):
             for vn in self.measures[m].l:
-                if l <= vn.x <= r:
+                if l <= vn.x  + m * (1 + self.timesignature.beats) * XPerBeat <= r:
                     vn = ViewableNote(
                         vn.n, vn.x + m * (1 + self.timesignature.beats) * XPerBeat
                     )
