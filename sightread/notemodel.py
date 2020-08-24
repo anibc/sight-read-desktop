@@ -34,14 +34,15 @@ class MeasureList:
 
     def __getitem__(self, key):
         key = int(key)
-        if self.transient:
-            if key - self.first < len(self.l):
-                return self.l[len(self.l) - 1 - key + self.first]
-            return self.r[key - self.first - len(self.l)]
-        else:
-            if key >= 0 and key < len(self.l):
-                return self.l[key]
-            return EmptyMeasure
+        if self.first <= key <= self.last:
+            if self.transient:
+                if key - self.first < len(self.l):
+                    return self.l[len(self.l) - 1 - key + self.first]
+                return self.r[key - self.first - len(self.l)]
+            else:
+                if key >= 0 and key < len(self.l):
+                    return self.l[key]
+        return EmptyMeasure
 
     def __setitem__(self, key, value):
         raise NotImplemented
@@ -70,12 +71,8 @@ class TimeSignature:
 
 class NoteModel:
     def __init__(self, timesig=TimeSignature(), transient=False):
-        self._measures = MeasureList(transient)
+        self.measures = MeasureList(transient)
         self.timesignature = timesig
-
-    @property
-    def measures(self):
-        return self._measures
 
     def timeToX(self, time, bpm):
         "maps time for given bpm to x in NoteModel"
