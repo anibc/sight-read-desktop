@@ -53,7 +53,7 @@ class DynamicPlayer(Player, midiinput.MIDIListener):
         return qt
 
     def secondTimerTimeout(self):
-        self.bpm += 1
+        # self.bpm += 1
         while True:
             last = self.tracknotes.measures.last
             if (
@@ -61,10 +61,9 @@ class DynamicPlayer(Player, midiinput.MIDIListener):
                 < self.tracknotes.timeToX(self.curtime, self.bpm)
                 + self.sl.sw.size().width()
             ):
+                self.logger.debug("Adding vn")
                 gen = OneHandWhiteRandGen()
                 self.tracknotes.appendNextBeat(next(gen))
-                # self.logger.info(self.tracknotes.measures[self.tracknotes.measures.last].lastX())
-                # break
             else:
                 break
 
@@ -83,7 +82,7 @@ class DynamicPlayer(Player, midiinput.MIDIListener):
     def on_midi_input(self, msg):
         if msg.type == "note_on":
             self.playednotes.add(msg.note)
-        elif msg.type == "note_off":
+        elif msg.type == "note_off" and msg.note in self.playednotes:
             self.playednotes.remove(msg.note)
         else:
             return

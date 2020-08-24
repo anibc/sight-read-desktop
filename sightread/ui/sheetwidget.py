@@ -69,13 +69,17 @@ class SheetWidget(QWidget):
         self.draw_notes(qp)
 
     def update_ranges(self):
-        self.leftx = self.player.curtime - 150
+        self.curx = self.player.tracknotes.timeToX(self.player.curtime, self.player.bpm)
+        self.leftx = self.curx - 150
         self.rightx = self.leftx + self.size().width() - 150
+        self.logger.debug("curtime: {}, curx: {}, leftx: {}, rightx: {}".format(self.player.curtime, self.curx, self.leftx, self.rightx))
         self.playednotesrange = self.player.playednotes
         # self.playednotesrange = self.player.playednotes.range(
         #     0, self.righttime - self.lefttime
         # )
         self.tracknotesrange = self.player.tracknotes.range(self.leftx, self.rightx)
+        for vn in self.tracknotesrange.l:
+            self.logger.debug("x: {}".format(vn.x))
 
     def draw_static_lines(self, qp):
         qp.setPen(QtGui.QColor(10, 10, 10))
@@ -96,9 +100,9 @@ class SheetWidget(QWidget):
 
     def draw_note(self, qp, vn):
         y = self.height_from_note(vn) + 6  # qp.fontInfo().pixelSize() // 8
-        qp.drawText(80 + vn.x, y, u"\U0001D15D")
+        qp.drawText(80 + vn.x - self.curx, y, u"\U0001D15D")
         if not vn.isWhite():
-            qp.drawText(80 + vn.x - 10, y, u"\U0001D12C")
+            qp.drawText(80 + vn.x - self.curx - 10, y, u"\U0001D12C")
 
     def draw_notes(self, qp):
         # https://unicode-table.com/en/blocks/musical-symbols/

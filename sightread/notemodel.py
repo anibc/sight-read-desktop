@@ -87,7 +87,7 @@ class NoteModel:
         measure = b // beats
         b -= measure * beats
         lastXInMeasure = self.measures[measure].lastX()
-        xInMeasure = b / width
+        xInMeasure = b * width
         prevX = measure * fullWidth + XPerBeat
         if xInMeasure < lastXInMeasure:
             return prevX + xInMeasure
