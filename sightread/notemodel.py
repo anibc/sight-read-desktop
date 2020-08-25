@@ -1,3 +1,4 @@
+import logging
 from sightread.note import Note
 from sightread.viewablenotes import ViewableNote, ViewableNotesRange
 
@@ -73,6 +74,7 @@ class NoteModel:
     def __init__(self, timesig=TimeSignature(), transient=False):
         self.measures = MeasureList(transient)
         self.timesignature = timesig
+        self.logger = logging.getLogger(__name__)
 
     def timeToX(self, time, bpm):
         "maps time for given bpm to x in NoteModel"
@@ -81,11 +83,12 @@ class NoteModel:
         fullWidth = width + XPerBeat
         bps = bpm / 60
         b = time * bps
-        measure = b // beats
+        measure = int(b // beats)
         b -= measure * beats
         lastXInMeasure = self.measures[measure].lastX()
-        xInMeasure = b * width
+        xInMeasure = b / beats * width
         prevX = measure * fullWidth + XPerBeat
+        self.logger.debug("b: {}, measure: {}, lastXInMeasure: {}, xInMeasure: {}, prevX: {}".format(b, measure, lastXInMeasure, xInMeasure, prevX))
         if xInMeasure < lastXInMeasure:
             return prevX + xInMeasure
         xInMeasure -= lastXInMeasure
@@ -128,6 +131,7 @@ class NoteModel:
         "appends note as viewablenote in next available beat"
         lastm = self.measures.last
         lastx = self.measures[lastm].lastX()
+        # self.logger.debug("lastm: {}, lastx: {}".format(lastm, lastx))
         if lastm == 0 and len(self.measures[lastm].l) == 0:
             for note in notes:
                 self.measures[lastm].append(ViewableNote(note, lastx))
