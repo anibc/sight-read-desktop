@@ -66,6 +66,7 @@ class SheetWidget(QWidget):
         self.update_ranges()
         self.draw_static_lines(qp)
         self.draw_note_lines(qp)
+        self.draw_bar_lines(qp)
         self.draw_notes(qp)
 
     def update_ranges(self):
@@ -92,6 +93,13 @@ class SheetWidget(QWidget):
         for i in range(note.SHEETLOW.n8, note.SHEETHIGH.n8 + 1, 2):
             y = self.height_from_n8(i)
             qp.drawLine(0, y, width, y)
+
+    def draw_bar_lines(self, qp):
+        ymx = self.height_from_n8(note.SHEETHIGH.n8)
+        ymn = self.height_from_n8(note.SHEETLOW.n8 )
+        for x in self.player.tracknotes.barlines(self.leftx, self.rightx):
+            x += 80 - self.curx
+            qp.drawLine(x, ymn, x, ymx)
 
     def draw_note_lines(self, qp):
         self.draw_top_note_lines(qp)
