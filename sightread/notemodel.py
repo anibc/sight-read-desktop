@@ -71,7 +71,8 @@ class TimeSignature:
 
 
 class NoteModel:
-    def __init__(self, timesig=TimeSignature(), transient=False):
+    def __init__(self, source, timesig=TimeSignature(), transient=False):
+        self.source = source
         self.measures = MeasureList(transient)
         self.timesignature = timesig
         self.logger = logging.getLogger(__name__)
@@ -103,6 +104,11 @@ class NoteModel:
 
     def range(self, l, r):
         "returns NoteRange from x value l to x value r"
+        if self.lastX() <= r:
+            for notes in self.source:
+                self.appendNextBeat(notes)
+                if self.lasX() > r:
+                    break
         lst = []
         for m in range(
             int(l // ((1 + self.timesignature.beats) * XPerBeat)),
@@ -126,6 +132,10 @@ class NoteModel:
                 ret.append(x)
                 x += width
         return ret
+
+    def lastX(self):
+        lastm = self.measures.last
+        return (1 + self.timesignature.beats) * XPerBeat * lastm + self.measures[lastm].lastX()
 
     def appendNextBeat(self, notes):
         "appends note as viewablenote in next available beat"

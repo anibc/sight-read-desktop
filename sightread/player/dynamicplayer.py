@@ -8,16 +8,18 @@ from sightread import note
 
 FPS = 20
 MinBPM = 10
+BPMInc = 1
+ACCMS = 500
 
 
 class DynamicPlayer(Player, midiinput.MIDIListener):
     def __init__(self, sl):
         self.logger = logging.getLogger(__name__)
         self.sl = sl
-        self.tracknotes = NoteModel()
+        self.tracknotes = NoteModel(self.OneHandWhiteRandGen)
         self.playednotes = set()
         self.curtime = 0
-        self._bpm = 10
+        self._bpm = MinBPM
         self.timer = self.initQTimer()
         self.secondTimer = self.initSecondQTimer()
         midiinput.register(self)
@@ -54,18 +56,18 @@ class DynamicPlayer(Player, midiinput.MIDIListener):
 
     def secondTimerTimeout(self):
         # self.bpm += 1
-        while True:
-            last = self.tracknotes.measures.last
-            if (
-                last * (1 + XPerBeat) + self.tracknotes.measures[last].lastX()
-                < self.tracknotes.timeToX(self.curtime, self.bpm)
-                + self.sl.sw.size().width()
-            ):
-                self.logger.debug("Adding vn")
-                gen = OneHandWhiteRandGen()
-                self.tracknotes.appendNextBeat(next(gen))
-            else:
-                break
+        # while True:
+        #     last = self.tracknotes.measures.last
+        #     if (
+        #         last * (1 + XPerBeat) + self.tracknotes.measures[last].lastX()
+        #         < self.tracknotes.timeToX(self.curtime, self.bpm)
+        #         + self.sl.sw.size().width()
+        #     ):
+        #         self.logger.debug("Adding vn")
+        #         gen = OneHandWhiteRandGen()
+        #         self.tracknotes.appendNextBeat(next(gen))
+        #     else:
+        #         break
 
     def play(self):
         self.timer.start()
