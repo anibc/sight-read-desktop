@@ -105,9 +105,9 @@ class NoteModel:
     def range(self, l, r):
         "returns NoteRange from x value l to x value r"
         if self.lastX() <= r:
-            for notes in self.source:
+            for notes in self.source():
                 self.appendNextBeat(notes)
-                if self.lasX() > r:
+                if self.lastX() > r:
                     break
         lst = []
         for m in range(

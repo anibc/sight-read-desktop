@@ -68,6 +68,7 @@ class DynamicPlayer(Player, midiinput.MIDIListener):
         #         self.tracknotes.appendNextBeat(next(gen))
         #     else:
         #         break
+        pass
 
     def play(self):
         self.timer.start()
@@ -89,9 +90,8 @@ class DynamicPlayer(Player, midiinput.MIDIListener):
         else:
             return
         self.sl.update()
-
-
-def OneHandWhiteRandGen():
-    while True:
-        n = random.randrange(note.SHEETLOW.n, note.SHEETHIGH.n)
-        yield (note.Note(n).white(),)
+    
+    def OneHandWhiteRandGen(self):
+        while True:
+            n = random.randrange(note.SHEETLOW.n, note.SHEETHIGH.n)
+            yield (note.Note(n).white(),)
