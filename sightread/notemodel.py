@@ -134,7 +134,7 @@ class NoteModel:
         while x <= r:
             if x >= l:
                 ret.append(x)
-                x += width
+            x += width
         return ret
 
     def lastX(self):
