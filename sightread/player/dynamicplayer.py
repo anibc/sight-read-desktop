@@ -90,7 +90,7 @@ class DynamicPlayer(Player, midiinput.MIDIListener):
         else:
             return
         self.sl.update()
-    
+
     def OneHandWhiteRandGen(self):
         while True:
             n = random.randrange(note.SHEETLOW.n, note.SHEETHIGH.n)

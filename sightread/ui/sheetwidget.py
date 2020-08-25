@@ -96,7 +96,7 @@ class SheetWidget(QWidget):
 
     def draw_bar_lines(self, qp):
         ymx = self.height_from_n8(note.SHEETHIGH.n8)
-        ymn = self.height_from_n8(note.SHEETLOW.n8 )
+        ymn = self.height_from_n8(note.SHEETLOW.n8)
         for x in self.player.tracknotes.barlines(self.leftx, self.rightx):
             x += 80 - self.curx
             qp.drawLine(x, ymn, x, ymx)

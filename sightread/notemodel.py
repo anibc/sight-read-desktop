@@ -89,7 +89,11 @@ class NoteModel:
         lastXInMeasure = self.measures[measure].lastX()
         xInMeasure = b / beats * width
         prevX = measure * fullWidth + XPerBeat
-        self.logger.debug("b: {}, measure: {}, lastXInMeasure: {}, xInMeasure: {}, prevX: {}".format(b, measure, lastXInMeasure, xInMeasure, prevX))
+        self.logger.debug(
+            "b: {}, measure: {}, lastXInMeasure: {}, xInMeasure: {}, prevX: {}".format(
+                b, measure, lastXInMeasure, xInMeasure, prevX
+            )
+        )
         if xInMeasure < lastXInMeasure:
             return prevX + xInMeasure
         xInMeasure -= lastXInMeasure
@@ -115,7 +119,7 @@ class NoteModel:
             int(2 + r // ((1 + self.timesignature.beats) * XPerBeat)),
         ):
             for vn in self.measures[m].l:
-                if l <= vn.x  + m * (1 + self.timesignature.beats) * XPerBeat <= r:
+                if l <= vn.x + m * (1 + self.timesignature.beats) * XPerBeat <= r:
                     vn = ViewableNote(
                         vn.n, vn.x + m * (1 + self.timesignature.beats) * XPerBeat
                     )
@@ -135,7 +139,9 @@ class NoteModel:
 
     def lastX(self):
         lastm = self.measures.last
-        return (1 + self.timesignature.beats) * XPerBeat * lastm + self.measures[lastm].lastX()
+        return (1 + self.timesignature.beats) * XPerBeat * lastm + self.measures[
+            lastm
+        ].lastX()
 
     def appendNextBeat(self, notes):
         "appends note as viewablenote in next available beat"
