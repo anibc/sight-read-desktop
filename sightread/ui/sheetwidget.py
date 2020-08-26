@@ -9,6 +9,7 @@ from sightread.viewablenotes import ViewableNote
 # dist_between_lines = dist_between_notes * 2 + 1
 dist_from_top = 50
 dist_from_bottom = 50
+play_area_width = 100
 dist_between_notes = 5
 middle_gap = dist_between_notes * 5
 middle_c_n8 = note.MIDDLEC.n8  # 40
@@ -72,7 +73,7 @@ class SheetWidget(QWidget):
     def update_ranges(self):
         self.curx = self.player.tracknotes.timeToX(self.player.curtime, self.player.bpm)
         self.leftx = self.curx - 150
-        self.rightx = self.leftx + self.size().width() - 150
+        self.rightx = self.leftx + self.size().width() - play_area_width
         self.logger.debug(
             "curtime: {}, curx: {}, leftx: {}, rightx: {}".format(
                 self.player.curtime, self.curx, self.leftx, self.rightx
@@ -98,7 +99,7 @@ class SheetWidget(QWidget):
         ymx = self.height_from_n8(note.SHEETHIGH.n8)
         ymn = self.height_from_n8(note.SHEETLOW.n8)
         for x in self.player.tracknotes.barlines(self.leftx, self.rightx):
-            x += 80 - self.curx
+            x += play_area_width - self.leftx
             qp.drawLine(x, ymn, x, ymx)
 
     def draw_note_lines(self, qp):
@@ -113,9 +114,9 @@ class SheetWidget(QWidget):
 
     def draw_note(self, qp, vn):
         y = self.height_from_note(vn) + 6  # qp.fontInfo().pixelSize() // 8
-        qp.drawText(80 + vn.x - self.curx, y, u"\U0001D15D")
+        qp.drawText(play_area_width + vn.x - self.leftx, y, u"\U0001D15D")
         if not vn.isWhite():
-            qp.drawText(80 + vn.x - self.curx - 10, y, u"\U0001D12C")
+            qp.drawText(play_area_width + vn.x - self.leftx - 10, y, u"\U0001D12C")
 
     def draw_notes(self, qp):
         # https://unicode-table.com/en/blocks/musical-symbols/
