@@ -20,11 +20,11 @@ class DynamicPlayer(Player, midiinput.MIDIListener):
         self.tracknotes = NoteModel(self.OneHandWhiteRandGen, addClump=self.addClump)
         self.playednotes = set()
         self.curtime = 0
-        self._bpm = 20 #MinBPM
+        self._bpm = 20  # MinBPM
         self.timer = self.initQTimer()
         self.secondTimer = self.initSecondQTimer()
         self.clumps = []
-        self.score = [] #last ten
+        self.score = []  # last ten
         midiinput.register(self)
 
     @property
@@ -89,7 +89,7 @@ class DynamicPlayer(Player, midiinput.MIDIListener):
         self.clumps.append((x, clumpNotes))
 
     def updateScore(self):
-        hitTime = self.curtime # calc more precisely
+        hitTime = self.curtime  # calc more precisely
         leftx = self.tracknotes.timeToX(hitTime - ACC, self.bpm)
         rightx = self.tracknotes.timeToX(hitTime + ACC, self.bpm)
         clumps = self.clumps
@@ -106,7 +106,7 @@ class DynamicPlayer(Player, midiinput.MIDIListener):
                 else:
                     self.clumps.append(clump)
         self.score = self.score[-10:]
-        scstr = ['True' if x else 'False' for x in self.score]
+        scstr = ["True" if x else "False" for x in self.score]
         self.logger.debug(" ".join(scstr))
 
     def on_midi_input(self, msg):
