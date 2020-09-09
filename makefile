@@ -12,3 +12,7 @@ black:
 clean:
 	find . -name *.pyc -delete
 	find . -name __pycache__ -delete
+
+clear: clean
+	echo > logs/app.log
+	clear
