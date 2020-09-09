@@ -71,11 +71,12 @@ class TimeSignature:
 
 
 class NoteModel:
-    def __init__(self, source, timesig=TimeSignature(), transient=False):
+    def __init__(self, source, timesig=TimeSignature(), transient=False, addClump=None):
         self.source = source
         self.measures = MeasureList(transient)
         self.timesignature = timesig
         self.logger = logging.getLogger(__name__)
+        self.addClump = addClump
 
     def timeToX(self, time, bpm):
         "maps time for given bpm to x in NoteModel"
@@ -89,11 +90,11 @@ class NoteModel:
         lastXInMeasure = self.measures[measure].lastX()
         xInMeasure = b / beats * width
         prevX = measure * fullWidth + XPerBeat
-        self.logger.debug(
-            "b: {}, measure: {}, lastXInMeasure: {}, xInMeasure: {}, prevX: {}".format(
-                b, measure, lastXInMeasure, xInMeasure, prevX
-            )
-        )
+        # self.logger.debug(
+        #     "b: {}, measure: {}, lastXInMeasure: {}, xInMeasure: {}, prevX: {}".format(
+        #         b, measure, lastXInMeasure, xInMeasure, prevX
+        #     )
+        # )
         if xInMeasure < lastXInMeasure:
             return prevX + xInMeasure
         xInMeasure -= lastXInMeasure
@@ -149,13 +150,19 @@ class NoteModel:
         lastx = self.measures[lastm].lastX()
         # self.logger.debug("lastm: {}, lastx: {}".format(lastm, lastx))
         if lastm == 0 and len(self.measures[lastm].l) == 0:
+            if self.addClump != None:
+                self.addClump(notes, 0)
             for note in notes:
                 self.measures[lastm].append(ViewableNote(note, lastx))
         elif lastx < 3 * XPerBeat:
+            if self.addClump != None:
+                self.addClump(notes, self.lastX() + XPerBeat)
             for note in notes:
                 self.measures[lastm].append(ViewableNote(note, lastx + XPerBeat))
         else:
             self.measures.append(Measure())
             lastm += 1
+            if self.addClump != None:
+                self.addClump(notes, self.lastX())
             for note in notes:
                 self.measures[lastm].append(ViewableNote(note, 0))

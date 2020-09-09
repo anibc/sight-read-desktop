@@ -74,17 +74,17 @@ class SheetWidget(QWidget):
         self.curx = self.player.tracknotes.timeToX(self.player.curtime, self.player.bpm)
         self.leftx = self.curx - 150
         self.rightx = self.leftx + self.size().width() - play_area_width
-        self.logger.debug(
-            "curtime: {}, curx: {}, leftx: {}, rightx: {}".format(
-                self.player.curtime, self.curx, self.leftx, self.rightx
-            )
-        )
+        # self.logger.debug(
+        #     "curtime: {}, curx: {}, leftx: {}, rightx: {}".format(
+        #         self.player.curtime, self.curx, self.leftx, self.rightx
+        #     )
+        # )
         self.playednotesrange = self.player.playednotes
         # self.playednotesrange = self.player.playednotes.range(
         #     0, self.righttime - self.lefttime
         # )
         self.tracknotesrange = self.player.tracknotes.range(self.leftx, self.rightx)
-        self.logger.debug("# of notes: {}".format(len(self.tracknotesrange.l)))
+        # self.logger.debug("# of notes: {}".format(len(self.tracknotesrange.l)))
         # for vn in self.tracknotesrange.l:
         #     self.logger.debug("x: {}".format(vn.x))
 

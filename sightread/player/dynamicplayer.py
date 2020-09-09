@@ -10,18 +10,21 @@ FPS = 20
 MinBPM = 10
 BPMInc = 1
 ACCMS = 500
+ACC = ACCMS / 1000
 
 
 class DynamicPlayer(Player, midiinput.MIDIListener):
     def __init__(self, sl):
         self.logger = logging.getLogger(__name__)
         self.sl = sl
-        self.tracknotes = NoteModel(self.OneHandWhiteRandGen)
+        self.tracknotes = NoteModel(self.OneHandWhiteRandGen, addClump=self.addClump)
         self.playednotes = set()
         self.curtime = 0
-        self._bpm = MinBPM
+        self._bpm = 20 #MinBPM
         self.timer = self.initQTimer()
         self.secondTimer = self.initSecondQTimer()
+        self.clumps = []
+        self.score = [] #last ten
         midiinput.register(self)
 
     @property
@@ -82,9 +85,34 @@ class DynamicPlayer(Player, midiinput.MIDIListener):
         self.curtime = -3
         self.pause()
 
+    def addClump(self, clumpNotes, x):
+        self.clumps.append((x, clumpNotes))
+
+    def updateScore(self):
+        hitTime = self.curtime # calc more precisely
+        leftx = self.tracknotes.timeToX(hitTime - ACC, self.bpm)
+        rightx = self.tracknotes.timeToX(hitTime + ACC, self.bpm)
+        clumps = self.clumps
+        self.clumps = []
+        for clump in clumps:
+            if clump[0] < leftx:
+                self.score.append(False)
+            elif clump[0] > rightx:
+                self.clumps.append(clump)
+            else:
+                match = self.playednotes == {n.n for n in clump[1]}
+                if match:
+                    self.score.append(True)
+                else:
+                    self.clumps.append(clump)
+        self.score = self.score[-10:]
+        scstr = ['True' if x else 'False' for x in self.score]
+        self.logger.debug(" ".join(scstr))
+
     def on_midi_input(self, msg):
         if msg.type == "note_on":
             self.playednotes.add(msg.note)
+            self.updateScore()
         elif msg.type == "note_off" and msg.note in self.playednotes:
             self.playednotes.remove(msg.note)
         else:
@@ -94,4 +122,5 @@ class DynamicPlayer(Player, midiinput.MIDIListener):
     def OneHandWhiteRandGen(self):
         while True:
             n = random.randrange(note.SHEETLOW.n, note.SHEETHIGH.n)
-            yield (note.Note(n).white(),)
+            # yield (note.Note(n).white(),)
+            yield (note.MIDDLEC,)
