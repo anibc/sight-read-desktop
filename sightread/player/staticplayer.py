@@ -1,7 +1,7 @@
 import mido
 import sightread.midi.input as midiinput
 from sightread.viewablenotes import ViewableNote
-from sightread.notemodel import NoteModel
+from sightread.note.model import NoteModel
 from sightread.player import Player
 from sightread import note
 import random
