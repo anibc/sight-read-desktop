@@ -1,6 +1,6 @@
 import logging
 from sightread.note import Note
-from sightread.viewablenotes import ViewableNote, ViewableNotesRange
+from sightread.note.viewablenotes import ViewableNote, ViewableNotesRange
 
 XPerBeat = 50  # x axis separation value per beat
 

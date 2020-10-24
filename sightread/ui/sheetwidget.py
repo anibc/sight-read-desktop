@@ -4,7 +4,7 @@ import PyQt5.QtGui as QtGui
 from sightread import mode
 from sightread.midi.input import MIDIListener, register, deregister
 from sightread import note
-from sightread.viewablenotes import ViewableNote
+from sightread.note.viewablenotes import ViewableNote
 
 # dist_between_lines = dist_between_notes * 2 + 1
 dist_from_top = 50

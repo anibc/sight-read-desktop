@@ -1,7 +1,7 @@
 import mido, random, logging
 from PyQt5.QtCore import QTimer
 import sightread.midi.input as midiinput
-from sightread.viewablenotes import ViewableNote
+from sightread.note.viewablenotes import ViewableNote
 from sightread.note.model import NoteModel, XPerBeat
 from sightread.player import Player
 from sightread import note
