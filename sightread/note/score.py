@@ -15,7 +15,20 @@ class Score():
     def xToTime(self, x, bps):
         return NotImplemented
 
+class ScoreNotesCollection():
+    def __init__(self):
+        self.l = []
+    def __getitem__(self, key):
+        return self.l[key]
+    def insert(self, note):
+        self.l.append(note)
+        self.l.sort()
 
+class Note():
+    def __init__(self):
+        pass
+    def __lt__(self, other):
+        return (self.x, self.on, self.n)
 
 
 
