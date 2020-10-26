@@ -7,3 +7,9 @@ class NotesView():
         self.toX = toX
         self.curX = curX
         self.bps = bps
+    def seek(self, fromX, toX):
+        """adjust current with bbst from self.score"""
+        return NotImplemented
+    def drawableNotes(self):
+        """yield in order of time, note_off first, NoteFreq"""
+        return NotImplemented
