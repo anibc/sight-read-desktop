@@ -7,6 +7,7 @@ from sightread.note.notesview import NotesView
 class Score():
     def __init__(self):
         self.logger = logging.getLogger(__name__)
+        self.notes = ScoreNotesCollection()
         return NotImplemented
     def tryLoadUpto(x):
         return NotImplemented
@@ -20,13 +21,20 @@ class ScoreNotesCollection():
         self.l = []
     def __getitem__(self, key):
         return self.l[key]
+    def __len__(self):
+        return len(self.l)
     def insert(self, note):
         self.l.append(note)
         self.l.sort()
 
 class Note():
-    def __init__(self):
-        pass
+    def __init__(self, x, n, on, measure, gradingInfo=None, finger=None):
+        self.x = x
+        self.n = n
+        self.on = on
+        self.measure = measure
+        self.gradingInfo = gradingInfo
+        self.finger = finger
     def __lt__(self, other):
         return (self.x, self.on, self.n)
 

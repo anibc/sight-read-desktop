@@ -4,6 +4,7 @@ class NotesView():
         self.timeSig = self.score.timeSig
         self.keySig = self.score.keySig
         self.activeNotes = set() # note_on exists before fromX (notes still playing)
+        self._drawableNotes = []
         self.fromX = float("-inf")
         self.toX = float("-inf")
         self.seek(fromX, toX)
@@ -14,4 +15,5 @@ class NotesView():
         return NotImplemented
     def drawableNotes(self):
         """yield in order of time, note_off first, NoteFreq"""
-        return NotImplemented
+        for dn in self._drawableNotes:
+            yield dn
