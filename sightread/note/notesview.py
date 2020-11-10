@@ -10,6 +10,8 @@ class NotesView():
         self.seek(fromX, toX)
         self.bps = bps
         self.curX = curX
+        self.highestNote = None
+        self.lowestNote = None
     def seek(self, fromX, toX):
         """adjust current with bbst from self.score"""
         return NotImplemented
