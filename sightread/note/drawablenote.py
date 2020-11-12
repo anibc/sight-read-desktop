@@ -1,6 +1,5 @@
 from sightread.note.notefreq import NoteFreq
 
-
 class DrawableNote(NoteFreq):
     def __init__(self, notesView, n, x, noteLength, finger=None):  # x is relative to sheet start (not measure start)
         if type(n) == Note:
@@ -22,3 +21,11 @@ class DrawableNote(NoteFreq):
         """from xduration"""
         return NotImplemented
 
+    @property
+    def durationType():
+        """
+            derive from xduration(closest approximation)
+            1 = whole, 2 = half, 4 = quarter...
+        """
+        #TODO
+        return 4
