@@ -30,7 +30,15 @@ class Score():
                 ret.append(note)
         return sorted(ret)
     def barlines(self, l, r):
-        return NotImplemented
+        #TODO improve on naive implementation
+        ret = []
+        if l <= 0 <= r:
+            ret.append(0)
+        for m in self.measures:
+            end = m.startgx + m.width
+            if l <= end <= r:
+                ret.append(end)
+        return ret
 
 class Measure():
     def __init__(self, id_, startgx, width):

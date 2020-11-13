@@ -12,6 +12,7 @@ class NotesView():
         self.curX = curX
         self.highestNote = None
         self.lowestNote = None
+        self.barlines = []
     def seek(self, fromX, toX):
         """adjust current with bbst from self.score"""
         return NotImplemented
