@@ -3,11 +3,18 @@ from sightread.note.notefreq import NoteFreq
 from sightread.note.drawablenote import DrawableNote
 from sightread.note.notesview import NotesView
 
+class TimeSignature:
+    def __init__(self, beats=4, beatType=4):
+        self.beats = beats
+        self.beatType = beatType
+
 # make not scrollable for transient scores
 class Score():
-    def __init__(self):
+    def __init__(self, timeSig):
         self.logger = logging.getLogger(__name__)
         self.notes = dict() # key: Unique ID, val: Note
+        self.timeSig = timesig
+        self.measures = []
         return NotImplemented
     def tryLoadUpto(x):
         return NotImplemented
@@ -22,17 +29,25 @@ class Score():
             if l < note.x + note.xduration and r > note.x:
                 ret.append(note)
         return sorted(ret)
+    def barlines(self, l, r):
+        return NotImplemented
+
+class Measure():
+    def __init__(self, id_, startgx, width):
+        self.id_ = id_
+        self.startgx = startgx
+        self.width = width
+        self.notes = []
+    def insert(self, note):
+        self.notes.append(note)
 
 class Note():
-    def __init__(self, x, n, on, measure, gradingInfo=None, finger=None):
+    def __init__(self, x, xduration, n, measure, gradingInfo=None):
         self.x = x
+        self.xduration = xduration
         self.n = n
-        self.on = on
         self.measure = measure
         self.gradingInfo = gradingInfo
-        self.finger = finger
-    def __lt__(self, other):
-        return (self.x, self.on, self.n)
 
 
 
